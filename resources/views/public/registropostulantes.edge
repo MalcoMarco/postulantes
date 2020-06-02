@@ -1,0 +1,502 @@
+@layout('layouts.postulantes')
+
+@section('content')
+
+    <ul id="collapse1" class="collapsible popout">
+        <li class="active">
+            <div class="collapsible-header">
+                Datos Personales <i :class="['material-icons right',postulanteOk?'green-text text-darken-2':'']"> @{{ postulanteOk?'check_circle':'edit'}}</i>
+            </div>
+            <div class="collapsible-body">
+                {{--  ::: 1 :::  --}}
+                <div class="datos-personales">
+                    {{ csrfField() }}
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <label for="nombres">Nombres y Apellidos</label>
+                            <input v-model="postulante.nombres" type="text" class="m-input" name="fullname" id="nombres" required>
+                        </div>
+                        <div class="input-field col s6">
+                            <label for="dni">DNI</label>
+                            <input v-model="postulante.dni" type="text" class="m-input" name="dni" id="dni" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <label for="email">Correo Electrónico</label>
+                            <input v-model="postulante.email" type="email" class="m-input" name="email" id="email" required>
+                        </div>
+                        <div class="input-field col s6">
+                            <label for="movil">N° móvil</label>
+                            <input v-model="postulante.movil" type="text" class="m-input" name="movil" id="movil" required>
+                        </div>
+                    </div>
+                    <div class="input-field">  
+                        <label for="carreraprofesional">Carrera profesional</label>
+                        <input v-model="postulante.carreraprofesional" type="text" class="m-input" name="carreraprofesional" id="carreraprofesional" required>
+                    </div>            
+                    <div class="input-field col s12">
+                        <select  v-model="postulante.cargo_id" name="cargo_id" id="cargo" required>
+                            <option value="" disabled selected>Seleccione</option>
+                            <option value="1">COORDINADORES LOCALES PP 0068 </option>
+                            <option value="2">PROFESIONAL ADMINISTRATIVO PREVAED</option>
+                        </select>
+                        <label>CARGO AL QUE POSTULA</label>
+                    </div>
+                </div>                 
+                
+                <div class="right-align">                    
+                    <button type="button" class="btn btn-raised btn-info" v-on:click="validatePostulantes">
+                    Continuar <i class="material-icons right">keyboard_arrow_right</i>
+                    </button>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">Estudios Realizados <i class="material-icons right">check_circle</i></div>
+            <div class="collapsible-body">
+                {{--  ::: 2 :::  --}}
+                <table class="table">
+                    <tr>
+                        <th>Estudios Realizados</th>
+                        <th>Universidad</th>
+                        <th>Mención</th>
+                        <th>Fecha de Expedición</th>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="va-middle">GRADO DE MAESTRIA</td>
+                        <td>
+                            <div class="input-field">  
+                                <label for="e0">Universidad</label>
+                                <input type="text" class="m-input" id="e0" name="gradomaestria[universidad]">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field">  
+                                <label for="e1">Mención</label>
+                                <input type="text" class="m-input" id="e1" name="gradomaestria[mencion]">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field">
+                                <label for="e2"></label>
+                                <input type="text" class="datepicker" id="e2" name="gradomaestria[expedicion]">
+                            </div>
+                        </td>
+                        <tr>
+                            <td colspan="4">
+                                <div>
+                                    <label class="file-label" for="tp4">Seleccionar Archivo</label>
+                                    <input type="file" accept=".pdf,.docx,.png,.jpg" id="tp4" name="gradomaestria[archivo]">
+                                </div>
+                            </td>
+                        </tr>
+                        
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="va-middle">EGRESADO DE MAESTRIA</td>
+                        <td>
+                            <div class="input-field">  
+                                <label for="m1">Universidad</label>
+                                <input type="text" class="m-input" id="m1" name="egresadomaestria[universidad]">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field">  
+                                <label for="m2">Mención</label>
+                                <input type="text" class="m-input" id="m2" name="egresadomaestria[mencion]">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field">  
+                                <label for="m3"></label>
+                                <input type="text" class="datepicker" id="m3" name="egresadomaestria[expedicion]">
+                            </div>
+                        </td>
+                        <tr>
+                            <td colspan="4">
+                                <div>
+                                    <label class="file-label" for="f2">Seleccionar Archivo</label>
+                                    <input type="file" accept=".pdf,.docx,.png,.jpg" id="f2" name="egresadomaestria[archivo]">
+                                </div>
+                            </td>
+                        </tr>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="va-middle">TÍTULO PROFESIONAL </td>
+                        <td>
+                            <div class="input-field">  
+                                <label for="tp0">Universidad</label>
+                                <input type="text" class="m-input" id="tp0" name="tituloprofesional[universidad]">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field">  
+                                <label for="tp2">Mención</label>
+                                <input type="text" class="m-input" id="tp2" name="tituloprofesional[mencion]">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field">  
+                                <label for="tp3"></label>
+                                <input type="text" class="datepicker" id="tp3" name="tituloprofesional[expedicion]">
+                            </div>
+                        </td>
+                        <tr>
+                            <td colspan="4">
+                                <div>
+                                    <label class="file-label" for="tp4">Seleccionar Archivo</label>
+                                    <input type="file" accept=".pdf,.docx,.png,.jpg" id="tp4" name="tituloprofesional[archivo]">
+                                </div>
+                            </td>
+                        </tr>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="va-middle">GRADO DE BACHILLER</td>
+                        <td>
+                            <div class="input-field">  
+                                <label for="gb1">Universidad</label>
+                                <input type="text" class="m-input" id="gb1" name="gradobachiller[universidad]">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field">  
+                                <label for="gb2">Mención</label>
+                                <input type="text" class="m-input" id="gb2" name="gradobachiller[mencion]"> 
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field">  
+                                <label for="gb3"></label>
+                                <input type="text" class="datepicker" id="gb3" name="gradobachiller[expedicion]">
+                            </div>
+                        </td>
+                        <tr>
+                            <td colspan="4">
+                                <div>
+                                    <label class="file-label" for="gb4">Seleccionar Archivo</label>
+                                    <input type="file" accept=".pdf,.docx,.png,.jpg" id="gb4" name="gradobachiller[archivo]">
+                                </div>
+                            </td>
+                        </tr>
+                    </tr>
+                </table>
+                <div class="right-align">                    
+                    <button type="button" class="btn btn-raised blue-grey darken-1" onclick="instance.open(0);">
+                    volver <i class="material-icons left">keyboard_arrow_left</i>
+                    </button>
+                    <button type="button" class="btn btn-raised btn-info" onclick="instance.open(2);">
+                    Continuar <i class="material-icons right">keyboard_arrow_right</i>
+                    </button>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header">Acreditaciones <span class="material-icons right">check_circle</span>
+            </div>
+            <div class="collapsible-body">
+                <p>CAPACITACIONES, CURSOS O DIPLOMADOS ACREDITADOS EN EL SECTOR EDUCACIÓN EN GESTIÓN DE RIESGO DE DESASTRES
+                    realizados los últimos 5 años:</p>
+                <table class="table">
+                    <thead>
+                        <th>DENOMINACION DEL CURSO DE EXPEDICION</th>
+                        <th>ENTIDAD QUE LO EMITIO</th>
+                        <th>N° DE HORAS</th>
+                        <th>FECHA</th>
+                        <th>ARCHIVO</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="input-field"> 
+                                    <label for="ac1"></label>
+                                    <input type="text" class="m-input" id="ac1">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-field"> 
+                                    <label for="ac1"></label>
+                                    <input type="text" class="m-input" id="ac1">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-field"> 
+                                    <label for="ac1"></label>
+                                    <input type="text" class="m-input" id="ac1">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-field"> 
+                                    <label for="ac1"></label>
+                                    <input type="text" class="datepicker" id="ac1">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-field"> 
+                                    <label for="ac1"></label>
+                                    <input type="file" accept=".pdf,.docx,.png,.jpg" class="m-input" id="ac1">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="input-field"> 
+                                    <label for="ac1"></label>
+                                    <input type="text" class="m-input" id="ac1">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-field"> 
+                                    <label for="ac1"></label>
+                                    <input type="text" class="m-input" id="ac1">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-field"> 
+                                    <label for="ac1"></label>
+                                    <input type="text" class="m-input" id="ac1">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-field"> 
+                                    <label for="ac1"></label>
+                                    <input type="text" class="datepicker" id="ac1">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-field"> 
+                                    <label for="ac1"></label>
+                                    <input type="file" accept=".pdf,.docx,.png,.jpg" class="m-input" id="ac1">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" class="center-align">
+                                <button type="button" class="btn btn-raised btn-light w-100 text-dark">agregar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
+            <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+        </li>
+        <li>
+            <div class="collapsible-header"><i class="material-icons">whatshot</i>Third</div>
+            <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
+        </li>
+    </ul>
+
+    <form method="POST" action="/postulantes/store">
+        <button type="submit" class="btn btn-raised btn-info">SUBMIT</button>
+    </form>
+
+    {{--  ::: 3 :::  --}}
+    <div class="card mt-3">
+        <div class="card-content">
+            <h5 class="card-title"></h5>
+            
+        </div>
+    </div>
+    {{--  ::: 4 :::  --}}
+    <div class="card mt-3">
+        <div class="card-content">
+            <h5 class="card-title">EXPERIENCIA LABORAL<span class="material-icons right">check_circle</span> </h5>
+            <table class="table">
+                <thead>
+                    <th>ENTIDAD EN QUE LABORO</th>
+                    <th>CARGO QUE DESEMPEÑO</th>
+                    <th>PERIODO DE TRABAJO</th>
+                    <th>TIEMPO (años-meses)</th>
+                    <th>ARCHIVO</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="input-field"> 
+                                <label for="ac1"></label>
+                                <input type="text" class="m-input" id="ac1">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field"> 
+                                <label for="ac1"></label>
+                                <input type="text" class="m-input" id="ac1">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field"> 
+                                <label for="ac1"></label>
+                                <input type="text" class="m-input" id="ac1">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field"> 
+                                <label for="ac1"></label>
+                                <input type="text" class="m-input" id="ac1">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field"> 
+                                <label for="ac1"></label>
+                                <input type="file" accept=".pdf,.docx,.png,.jpg" class="m-input" id="ac1">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-field"> 
+                                <label for="ac1"></label>
+                                <input type="text" class="m-input" id="ac1">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field"> 
+                                <label for="ac1"></label>
+                                <input type="text" class="m-input" id="ac1">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field"> 
+                                <label for="ac1"></label>
+                                <input type="text" class="m-input" id="ac1">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field"> 
+                                <label for="ac1"></label>
+                                <input type="text" class="m-input" id="ac1">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field"> 
+                                <label for="ac1"></label>
+                                <input type="file" accept=".pdf,.docx,.png,.jpg" class="m-input" id="ac1">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" class="center-align">
+                            <button type="button" class="btn btn-raised btn-light w-100 text-dark">agregar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {{--  ::: 5 :::  --}}
+    <div class="card mt-3">
+        <div class="card-content">
+            <h5 class="card-title">EXPERIENCIA LABORAL ESPECÍFICA EN EL CARGO O EN PROGRAMAS PRESUPUESTALES<span class="material-icons right">check_circle</span> </h5>
+            <table class="table">
+                <thead>
+                    <th>ENTIDAD EN QUE LABORO</th>
+                    <th>CARGO QUE DESEMPEÑO</th>
+                    <th>PERIODO DE TRABAJO</th>
+                    <th>TIEMPO (años-meses)</th>
+                    <th>ARCHIVO</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="input-field"> 
+                                <label for="ac1"></label>
+                                <input type="text" class="m-input" id="ac1">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field"> 
+                                <label for="ac1"></label>
+                                <input type="text" class="m-input" id="ac1">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field"> 
+                                <label for="ac1"></label>
+                                <input type="text" class="m-input" id="ac1">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field"> 
+                                <label for="ac1"></label>
+                                <input type="text" class="m-input" id="ac1">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field"> 
+                                <label for="ac1"></label>
+                                <input type="file" accept=".pdf,.docx,.png,.jpg" class="m-input" id="ac1">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="input-field"> 
+                                <label for="ac1"></label>
+                                <input type="text" class="m-input" id="ac1">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field"> 
+                                <label for="ac1"></label>
+                                <input type="text" class="m-input" id="ac1">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field"> 
+                                <label for="ac1"></label>
+                                <input type="text" class="m-input" id="ac1">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field"> 
+                                <label for="ac1"></label>
+                                <input type="text" class="m-input" id="ac1">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-field"> 
+                                <label for="ac1"></label>
+                                <input type="file" accept=".pdf,.docx,.png,.jpg" class="m-input" id="ac1">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" class="center-align">
+                            <button type="button" class="btn btn-raised btn-light w-100 text-dark">agregar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+@endsection
+
+@section('scripts')
+    <script>
+        //materialize init
+        var instance;
+        $(document).ready(()=>{
+            $('select').formSelect();
+            $('.datepicker').datepicker({            
+                i18n: {
+                    months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                    monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"],
+                    weekdays: ["Domingo","Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+                    weekdaysShort: ["Dom","Lun", "Mar", "Mie", "Jue", "Vie", "Sab"],
+                    weekdaysAbbrev: ["D","L", "M", "M", "J", "V", "S"]
+                }
+            });
+            const collapse1=$('.collapsible').collapsible();
+            instance = M.Collapsible.getInstance(collapse1);
+            //evitar collapse onclick
+            $('.collapsible-header').click(function(e){ e.stopPropagation(); });
+        });        
+    </script>
+    <!-- Vue production version, optimized for size and speed -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    {{ script('js/vuepostulantes.js') }}
+@endsection
+
