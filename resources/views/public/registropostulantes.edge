@@ -2,24 +2,24 @@
 
 @section('content')
     @if(flashMessage('error'))
-    <div class="card-alert card red lighten-5">
-        <div class="card-content red-text">
-            <strong>Oh!</strong> {{ flashMessage('error') }}
+        <div class="card-alert card red lighten-5">
+            <div class="card-content red-text">
+                <strong>Oh!</strong> {{ flashMessage('error') }}
+            </div>
+            <button type="button" class="close red-text" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
         </div>
-        <button type="button" class="close red-text" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">×</span>
-        </button>
-    </div>
     @endif
     @if(flashMessage('success'))
-    <div class="card-alert card green lighten-5">
-        <div class="card-content green-text">
-            <strong>Well done!</strong> {{ flashMessage('success') }}</a>
+        <div class="card-alert card green lighten-5">
+            <div class="card-content green-text">
+                <strong>Well done!</strong> {{ flashMessage('success') }}</a>
+            </div>
+            <button type="button" class="close green-text" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
         </div>
-        <button type="button" class="close green-text" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">×</span>
-        </button>
-    </div>
     @endif
     <form id="app" method="POST" action="/postulantes/store" enctype="multipart/form-data">
     <ul id="collapse1" class="collapsible popout">
@@ -190,54 +190,57 @@
             <div class="collapsible-body">
                 <p>CAPACITACIONES, CURSOS O DIPLOMADOS ACREDITADOS EN EL SECTOR EDUCACIÓN EN GESTIÓN DE RIESGO DE DESASTRES
                     realizados los últimos 5 años:</p>
-                <table class="table responsive-table">
-                    <thead>
-                        <th>DENOMINACION DEL CURSO DE EXPEDICION</th>
-                        <th>ENTIDAD QUE LO EMITIO</th>
-                        <th>N° DE HORAS</th>
-                        <th>FECHA</th>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(n,i) in acreditados" :key="'acreditados'+n">
-                            <td>
-                                <div class="input-field col m6"> 
-                                    <label :for="'acr1'+n">Denominación</label>
-                                    <input type="text" class="m-input" :id="'acr1'+n" :name="'acreditacion['+i+'][denominacion]'">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="input-field"> 
-                                    <label :for="'acr2'+n">Entidad</label>
-                                    <input type="text" class="m-input" :id="'acr2'+n" :name="'acreditacion['+i+'][entidad]'">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="input-field"> 
-                                    <label :for="'acr3'+n">N° horas</label>
-                                    <input type="text" class="m-input" :id="'acr3'+n" :name="'acreditacion['+i+'][horas]'">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="input-field"> 
-                                    <label :for="'acr4'+n" class="active">fecha</label>
-                                    <input type="date"  :id="'acr4'+n" :name="'acreditacion['+i+'][fecha]'">
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="5" class="center-align">
-                                <button type="button" v-on:click="acreditados++" 
-                                class="btn btn-raised green darken-2" style="width: 100% !important;margin-bottom: 10px">
-                                    agregar 1<i class="material-icons right">add</i>
-                                </button>
-                                <button v-if="acreditados>1" v-on:click="acreditados--" type="button" 
-                                    class="btn btn-raised orange" style="width: 100% !important">
-                                    quitar 1<i class="material-icons right">clear</i>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                    <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <th>DENOMINACION DEL CURSO DE EXPEDICION</th>
+                            <th>ENTIDAD QUE LO EMITIO</th>
+                            <th>N° DE HORAS</th>
+                            <th>FECHA</th>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(n,i) in acreditados" :key="'acreditados'+n">
+                                <td>
+                                    <div class="input-field col m6"> 
+                                        <label :for="'acr1'+n">Denominación</label>
+                                        <input type="text" class="m-input" :id="'acr1'+n" :name="'acreditacion['+i+'][denominacion]'">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-field"> 
+                                        <label :for="'acr2'+n">Entidad</label>
+                                        <input type="text" class="m-input" :id="'acr2'+n" :name="'acreditacion['+i+'][entidad]'">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-field"> 
+                                        <label :for="'acr3'+n">N° horas</label>
+                                        <input type="text" class="m-input" :id="'acr3'+n" :name="'acreditacion['+i+'][horas]'">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-field"> 
+                                        <label :for="'acr4'+n" class="active">fecha</label>
+                                        <input type="date"  :id="'acr4'+n" :name="'acreditacion['+i+'][fecha]'">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="center-align">
+                                    <button type="button" v-on:click="acreditados++" 
+                                    class="btn btn-raised green darken-2" style="width: 100% !important;margin-bottom: 10px">
+                                        agregar 1<i class="material-icons right">add</i>
+                                    </button>
+                                    <button v-if="acreditados>1" v-on:click="acreditados--" type="button" 
+                                        class="btn btn-raised orange" style="width: 100% !important">
+                                        quitar 1<i class="material-icons right">clear</i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table> 
+                    </div>
+                
                 <p class="right-align">                    
                     <button style="margin-bottom: 10px" type="button" class="btn btn-raised blue-grey darken-1" 
                     onclick="instance.open(1);">
@@ -254,54 +257,57 @@
                 <i class="material-icons left">edit</i>Experiencia Laboral
             </div>
             <div class="collapsible-body">
-                <table class="table responsive-table">
-                    <thead>
-                        <th>ENTIDAD EN QUE LABORO</th>
-                        <th>CARGO QUE DESEMPEÑO</th>
-                        <th>PERIODO DE TRABAJO</th>
-                        <th>TIEMPO (años-meses)</th>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(n,i) in expLaboral" :key="'expLaboral_'+n">
-                            <td>
-                                <div class="input-field"> 
-                                    <label :for="'exp1_'+n">Entidad</label>
-                                    <input type="text" class="m-input" :id="'exp1_'+n" :name="'experienciaLaboral['+i+'][entidad]'">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="input-field"> 
-                                    <label :for="'exp2_'+n">Cargo</label>
-                                    <input type="text" class="m-input" :id="'exp2_'+n" :name="'experienciaLaboral['+i+'][cargo]'">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="input-field"> 
-                                    <label :for="'exp3_'+n">Periodo</label>
-                                    <input type="text" class="m-input" :id="'exp3_'+n" :name="'experienciaLaboral['+i+'][periodo]'">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="input-field"> 
-                                    <label :for="'exp4_'+n">Tiempo</label>
-                                    <input type="text" class="m-input" :id="'exp4_'+n" :name="'experienciaLaboral['+i+'][tiempo]'">
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="5" class="center-align">
-                                <button type="button" v-on:click="expLaboral++" 
-                                class="btn btn-raised green darken-2" style="width: 100% !important;margin-bottom: 10px">
-                                    agregar 1<i class="material-icons right">add</i>
-                                </button>
-                                <button v-if="expLaboral>1" v-on:click="expLaboral--" type="button" 
-                                    class="btn btn-raised orange" style="width: 100% !important">
-                                    quitar 1<i class="material-icons right">clear</i>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <th>ENTIDAD EN QUE LABORO</th>
+                            <th>CARGO QUE DESEMPEÑO</th>
+                            <th>PERIODO DE TRABAJO</th>
+                            <th>TIEMPO (años-meses)</th>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(n,i) in expLaboral" :key="'expLaboral_'+n">
+                                <td>
+                                    <div class="input-field"> 
+                                        <label :for="'exp1_'+n">Entidad</label>
+                                        <input type="text" class="m-input" :id="'exp1_'+n" :name="'experienciaLaboral['+i+'][entidad]'">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-field"> 
+                                        <label :for="'exp2_'+n">Cargo</label>
+                                        <input type="text" class="m-input" :id="'exp2_'+n" :name="'experienciaLaboral['+i+'][cargo]'">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-field"> 
+                                        <label :for="'exp3_'+n">Periodo</label>
+                                        <input type="text" class="m-input" :id="'exp3_'+n" :name="'experienciaLaboral['+i+'][periodo]'">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-field"> 
+                                        <label :for="'exp4_'+n">Tiempo</label>
+                                        <input type="text" class="m-input" :id="'exp4_'+n" :name="'experienciaLaboral['+i+'][tiempo]'">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5" class="center-align">
+                                    <button type="button" v-on:click="expLaboral++" 
+                                    class="btn btn-raised green darken-2" style="width: 100% !important;margin-bottom: 10px">
+                                        agregar 1<i class="material-icons right">add</i>
+                                    </button>
+                                    <button v-if="expLaboral>1" v-on:click="expLaboral--" type="button" 
+                                        class="btn btn-raised orange" style="width: 100% !important">
+                                        quitar 1<i class="material-icons right">clear</i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
                 <p class="right-align">                    
                     <button style="margin-bottom: 10px" type="button" class="btn btn-raised blue-grey darken-1" 
                     onclick="instance.open(2);">
@@ -317,55 +323,58 @@
             <div class="collapsible-header"><i class="material-icons left">edit</i>Experiencia Laboral Específica</div>
             <div class="collapsible-body">
                 <p>EXPERIENCIA LABORAL ESPECÍFICA EN EL CARGO O EN PROGRAMAS PRESUPUESTALES</p>
-                <table class="table responsive-table">
-                    <thead>
-                        <th>ENTIDAD EN QUE LABORO</th>
-                        <th>CARGO QUE DESEMPEÑO</th>
-                        <th>PERIODO DE TRABAJO</th>
-                        <th>TIEMPO (años-meses)</th>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(n,i) in expLaboralEsp" :key="'expLaboralEsp_'+n">
-                            <td>
-                                <div class="input-field"> 
-                                    <label :for="'exp10'+n">Entidad</label>
-                                    <input type="text" class="m-input" :id="'exp10'+n" :name="'experienciaLaboralEsp['+i+'][entidad]'">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="input-field"> 
-                                    <label :for="'exp20'+n">Cargo</label>
-                                    <input type="text" class="m-input" :id="'exp20'+n" :name="'experienciaLaboralEsp['+i+'][cargo]'">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="input-field"> 
-                                    <label :for="'exp30'+n">Periodo</label>
-                                    <input type="text" class="m-input" :id="'exp30'+n" :name="'experienciaLaboralEsp['+i+'][periodo]'">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="input-field"> 
-                                    <label :for="'exp40'+n">Tiempo</label>
-                                    <input type="text" class="m-input" :id="'exp40'+n" :name="'experienciaLaboralEsp['+i+'][tiempo]'">
-                                </div>
-                            </td>
-                        </tr>
-                        
-                        <tr>
-                            <td colspan="5" class="center-align">
-                                <button type="button" v-on:click="expLaboralEsp++" 
-                                class="btn btn-raised green darken-2" style="width: 100% !important;margin-bottom: 10px">
-                                    agregar 1<i class="material-icons right">add</i>
-                                </button>
-                                <button v-if="expLaboralEsp>1" v-on:click="expLaboralEsp--" type="button" 
-                                    class="btn btn-raised orange" style="width: 100% !important">
-                                    quitar 1<i class="material-icons right">clear</i>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <th>ENTIDAD EN QUE LABORO</th>
+                            <th>CARGO QUE DESEMPEÑO</th>
+                            <th>PERIODO DE TRABAJO</th>
+                            <th>TIEMPO (años-meses)</th>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(n,i) in expLaboralEsp" :key="'expLaboralEsp_'+n">
+                                <td>
+                                    <div class="input-field"> 
+                                        <label :for="'exp10'+n">Entidad</label>
+                                        <input type="text" class="m-input" :id="'exp10'+n" :name="'experienciaLaboralEsp['+i+'][entidad]'">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-field"> 
+                                        <label :for="'exp20'+n">Cargo</label>
+                                        <input type="text" class="m-input" :id="'exp20'+n" :name="'experienciaLaboralEsp['+i+'][cargo]'">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-field"> 
+                                        <label :for="'exp30'+n">Periodo</label>
+                                        <input type="text" class="m-input" :id="'exp30'+n" :name="'experienciaLaboralEsp['+i+'][periodo]'">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-field"> 
+                                        <label :for="'exp40'+n">Tiempo</label>
+                                        <input type="text" class="m-input" :id="'exp40'+n" :name="'experienciaLaboralEsp['+i+'][tiempo]'">
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td colspan="5" class="center-align">
+                                    <button type="button" v-on:click="expLaboralEsp++" 
+                                    class="btn btn-raised green darken-2" style="width: 100% !important;margin-bottom: 10px">
+                                        agregar 1<i class="material-icons right">add</i>
+                                    </button>
+                                    <button v-if="expLaboralEsp>1" v-on:click="expLaboralEsp--" type="button" 
+                                        class="btn btn-raised orange" style="width: 100% !important">
+                                        quitar 1<i class="material-icons right">clear</i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
                 <p class="right-align">                    
                     <button style="margin-bottom: 10px" type="button" class="btn btn-raised blue-grey darken-1" 
                     onclick="instance.open(3);">
