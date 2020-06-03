@@ -14,10 +14,13 @@
 */
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
+const Drive = use('Drive')
 const Route = use('Route')
 
 //Route.on('/').render('welcome')
 Route.get('/', 'PostulanteController.index');
+Route.get('/index', 'PostulanteController.index');
+
 
 // ::: POSTULANTES :::
 Route.group(() => {
