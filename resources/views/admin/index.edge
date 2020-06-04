@@ -1,0 +1,37 @@
+@layout('layouts.admin')
+
+@section('content')
+<div class="card">
+    <div class="card-content">
+        <div class="table-responsive">
+            <h5>Postulantes: {{postulantes.length}} </h5>
+            <div class="table-responsive">
+                <table class="highlight">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombres</th>
+                        <th>Email</th>
+                        <th>Movil</th>
+                        <th>Carrera Prof.</th>
+                        <th>Cargo de Postulante</th>
+                    </tr>
+                    </thead>        
+                    <tbody>
+                        @each((postulante,index) in postulantes)
+                            <tr>
+                                <td>{{index+1}} </td>
+                            <td><a href="/admin/postulante/{{postulante.id}}">{{postulante.fullname}} </a>  </td>
+                                <td>{{postulante.email}} </td>
+                                <td>{{postulante.movil}} </td>
+                                <td>{{postulante.carreraprofesional}} </td>
+                                <td>{{postulante.cargoname}} </td>
+                            </tr>
+                        @endeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

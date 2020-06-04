@@ -22,6 +22,7 @@
         </div>
     @endif
     <form id="app" method="POST" action="/postulantes/store" enctype="multipart/form-data">
+        {{ csrfField() }}
     <ul id="collapse1" class="collapsible popout">
         <li class="active">
             <div class="collapsible-header">
@@ -32,7 +33,6 @@
             <div class="collapsible-body">
                 {{--  ::: 1 :::  --}}
                 <div class="datos-personales">
-                    {{ csrfField() }}
                     <div class="row">
                         <div class="input-field col m6">
                             <label for="nombres">Nombres y Apellidos</label>

@@ -25,14 +25,23 @@ Route.get('/index', 'PostulanteController.index');
 // ::: POSTULANTES :::
 Route.group(() => {
   Route.post('store', 'PostulanteController.store')
-
 }).prefix('postulantes')
 
 
-Route
-  .post('login', 'UserController.login')
-  .middleware('guest')
+Route.get('login', 'UserController.formlogin').middleware('guest')
+Route.post('dologin', 'UserController.login').middleware('guest')
+Route.get('register', 'Auth/RegisterController.FormUserRegister').middleware('guest')
+Route.post('register', 'Auth/RegisterController.registeruser').middleware('guest')
 
-Route
-  .get('users/:id', 'UserController.show')
-  .middleware('auth')
+Route.get('users/:id', 'UserController.show').middleware('auth')
+Route.get('/logout', async ({auth,response})=>{
+  await auth.logout()
+  response.redirect('/login')
+}).middleware('auth')
+
+// ::: ADMIN :::
+Route.group(() => {
+  Route.get('', 'Admin/AdminController.index')
+  Route.get('postulante/:postulante_id', 'Admin/AdminController.showPostulante')
+
+}).prefix('admin').middleware('auth')

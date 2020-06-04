@@ -1,0 +1,119 @@
+@layout('layouts.admin')
+
+@section('content')
+    <div class="card">
+      <div class="card-content">
+          <div class="table-responsive">
+                <table>
+                    <tr>
+                        <th>Nombre</th>
+                        <td>{{postulante.fullname}} </td>
+                    </tr>
+                    <tr>
+                        <th>DNI</th>
+                        <td>{{postulante.dni}} </td>
+                    </tr>
+                    <tr>
+                        <th>Email </th>
+                        <td>{{postulante.email}} </td>
+                    </tr>
+                    <tr>
+                        <th>Carrera Profesional</th>
+                        <td>{{postulante.carreraprofesional}} </td>
+                    </tr>
+                    <tr>
+                        <th>Movil</th>
+                        <td>{{postulante.movil}} </td>
+                    </tr>
+                    <tr>
+                        <th>Cargo al que postula</th>
+                        <td>{{cargo.nombre}} </td>
+                    </tr>
+                </table>  
+          </div>          
+      </div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="card-content">
+            <div class="table-responsive">
+                <h5>Estudios:</h5>
+                  <table>
+                      @each(estudio in estudios)
+                      <tr>
+                          <th colspan="2" ><i class="material-icons left">school</i> {{estudio.nombre}} </th>
+                      </tr>
+                      <tr>
+                          <th>Universidad</th>
+                          <td>{{estudio.universidad}} </td>
+                      </tr>
+                      <tr>
+                          <th>Mencion</th>
+                          <td>{{estudio.mencion}} </td>
+                      </tr>
+                      <tr>
+                          <th>Fecha Expedicion</th>
+                          <td>{{estudio.expedicion.toDateString()}} </td>
+                      </tr>
+                      <tr>
+                          <th>Archivo</th>
+                          <td><a href="{{estudio.filepath}}" target="_blank"> 
+                            <i class="material-icons left">insert_drive_file</i> Archivo </a>  </td>
+                      </tr>
+                      @endeach
+                  </table>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="card-content">
+            <div class="table-responsive">
+                <h5>CAPACITACIONES, CURSOS O DIPLOMADOS ACREDITADOS EN EL SECTOR EDUCACIÓN EN GESTIÓN DE RIESGO DE DESASTRES realizados los últimos 5 años:</h5>
+                  <table>
+                      <thead>
+                          <th>DENOMINACIÓN DEL CURSO</th>
+                          <th>ENTIDAD QUE LO EMITIÓ</th>
+                          <th>N° DE HORAS </th>
+                          <th>FECHA DE EXPEDICIÓN</th>
+                      </thead>
+                      @each(acreditacion in acreditaciones)
+                      <tr>
+                        <td>{{ acreditacion.denominacion }}</td>
+                        <td>{{ acreditacion.entidad }}</td>
+                        <td>{{ acreditacion.horas }}</td>
+                        <td>{{ acreditacion.fecha.toDateString() }}</td>
+                      </tr>
+                      @endeach
+                  </table>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="card-content">
+            <div class="table-responsive">
+                <h5>EXPERIENCIA LABORAL GENERAL Y ESPECIFICA</h5>
+                  <table>
+                      <thead>
+                          <th>ENTIDAD EN QUE LABORO</th>
+                          <th>CARGO QUE DESEMPEÑO</th>
+                          <th>PERIODO DE TRABAJO</th>
+                          <th>TIEMPO en años-meses</th>
+                      </thead>
+                      @each(experiencia in experiencias)
+                      <tr>
+                        <td>{{ experiencia.entidad }}</td>
+                        <td>{{ experiencia.cargo }}</td>
+                        <td>{{ experiencia.periodo }}</td>
+                        <td>{{ experiencia.tiempo }}</td>
+                      </tr>
+                      @endeach
+                  </table>
+            </div>
+        </div>
+    </div>
+    
+
+    
+@endsection

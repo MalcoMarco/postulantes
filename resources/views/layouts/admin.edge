@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="description" content="">
+    <title>Admin</title>
+   <!-- Materialize-->
+   {{ style('materialize/css/materialize.min.css') }}
+    
+    <!-- Material Icons-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+     <!--mis styles-->
+     {{ style('style.css') }}
+</head>
+  <body>
+    <nav class="light-blue lighten-1" role="navigation">
+        <div class="nav-wrapper">
+            <a id="logo-container" href="/admin" class="brand-logo">Admin</a>
+          <ul class="right hide-on-med-and-down">
+              <li class="active"><a href="/admin">Postulantes</a> </li>
+                <li>
+                    <a class="dropdown-trigger" href="#!" 
+                    data-target="dropdown1" data-beloworigin="true">
+                    {{auth.user.username}}
+                    <i class="material-icons right">arrow_drop_down</i></a>
+                    <!-- Dropdown Structure -->
+                    <ul id="dropdown1" class="dropdown-content">
+                        <li class="divider"></li>
+                        <li><a href="/logout">Cerrar Sesion</a></li>
+                    </ul>
+                </li>
+          </ul>
+          {{--  ::mobile::  --}}
+          <ul id="nav-mobile" class="sidenav">
+            <li><a href="/logout">Cerrar Sesion</a></li>
+            <li>{{auth.user.username}} </li>
+          </ul>
+          <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        </div>
+      </nav>
+      
+
+      <div class="section no-pad-bot" id="index-banner" style="min-height: 100vh;">
+        <div class="container">
+
+            @!section('content')
+            
+        </div>
+      </div>
+      <footer class="page-footer light-blue">
+        <div class="footer-copyright">
+          <div class="container">
+          Aula Peru Tic
+          </div>
+        </div>
+      </footer>
+    <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+    <!-- External libraries -->
+
+    <!-- Initialization script -->
+    {{script('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js')}}
+    {{script('materialize/js/materialize.min.js')}}
+    <script>
+        $(document).ready(()=>{
+            $('.sidenav').sidenav();
+            $(".dropdown-trigger").dropdown();        
+        });
+    </script>
+  </body>
+</html>
