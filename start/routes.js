@@ -25,6 +25,7 @@ Route.get('/index', 'PostulanteController.index');
 // ::: POSTULANTES :::
 Route.group(() => {
   Route.post('store', 'PostulanteController.store')
+  Route.get('registro-completo', 'PostulanteController.registroOk')
 }).prefix('postulantes')
 
 

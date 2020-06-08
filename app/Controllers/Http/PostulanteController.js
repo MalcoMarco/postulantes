@@ -38,8 +38,8 @@ class PostulanteController {
     const requestTituloProfecional = request.only(['tituloprofesional'])
     const requestGradoBachiller = request.only(['gradobachiller'])
     const requestAcreditacion = request.collect(['acreditacion'])
-    const requestExperiencia1 = request.collect(['experienciaLaboral'])
-    const requestExperiencia2 = request.collect(['experienciaLaboralEsp'])
+    const requestExperiencia1 = request.collect(['experienciaLaboral1'])
+    const requestExperiencia2 = request.collect(['experienciaLaboral2'])
     //return requestExperiencia1;
 
     //modelos
@@ -53,7 +53,7 @@ class PostulanteController {
     const bachiller = new Estudio()
     
     /** :: estudios :: */
-    //subiendo Archivos
+    //subiendo Archivos ESTUDIOS
     const pathUpload = "public/uploads/";
     const FilesAcepted = ['jpg', 'png', 'jpeg', 'pdf', 'doc', 'docx']
     if (requestGradoMaestria && requestGradoMaestria.gradomaestria) {
@@ -133,9 +133,6 @@ class PostulanteController {
       bachiller.expedicion = requestGradoBachiller.gradobachiller.expedicion
     }
 
-    //return response.send(profilePic.fileName)
-    //return response.send(postulanteRequestData)
-
     const Database = use('Database')
     const trx = await Database.beginTransaction()
 
@@ -163,38 +160,80 @@ class PostulanteController {
       const { acreditacion } = requestAcreditacion[index]
       if (acreditacion.denominacion && acreditacion.entidad && acreditacion.horas && acreditacion.fecha) {
         const newAcreditacion = new Acreditacion()
+        //subiendo archivo
+        const fileAcred = request.file(`acreditacion[${index}][archivo]`, {
+          maxSize: '20mb',
+          allowedExtensions: FilesAcepted
+        })
+
+        if (fileAcred) {
+          await fileAcred.move(pathUpload, {//Helpers.tmpPath('uploads')
+            name: `${new Date().getTime()}-${fileAcred.clientName}`,
+            overwrite: true
+          })        
+          newAcreditacion.filepath = '/uploads/' + fileAcred.fileName;
+        }
+        
+        
         newAcreditacion.denominacion = acreditacion.denominacion
         newAcreditacion.entidad = acreditacion.entidad
         newAcreditacion.horas = acreditacion.horas
         newAcreditacion.fecha = acreditacion.fecha
         newAcreditacion.postulante_id = newPostulante.id
+
         await newAcreditacion.save(trx) 
       }
     }
     /** :: Experiencia (laboral) tipo 1 :: */
     for (let index = 0; index < requestExperiencia1.length; index++) {
-      const { experienciaLaboral } = requestExperiencia1[index]
-      if (experienciaLaboral.entidad && experienciaLaboral.cargo && experienciaLaboral.periodo && experienciaLaboral.tiempo) {
+      const { experienciaLaboral1 } = requestExperiencia1[index]
+      if (experienciaLaboral1.entidad && experienciaLaboral1.cargo && experienciaLaboral1.periodo && experienciaLaboral1.tiempo) {
         const newExperiencia = new Experiencia()
+        //subiendo archivo
+        const fileExp = request.file(`experienciaLaboral1[${index}][archivo]`, {
+          maxSize: '20mb',
+          allowedExtensions: FilesAcepted
+        })
+
+        if (fileExp) {
+          await fileExp.move(pathUpload, {//Helpers.tmpPath('uploads')
+            name: `${new Date().getTime()}-${fileExp.clientName}`,
+            overwrite: true
+          })        
+          newExperiencia.filepath = '/uploads/' + fileExp.fileName;
+        }
         newExperiencia.experienciastipo_id = 1
-        newExperiencia.entidad = experienciaLaboral.entidad
-        newExperiencia.cargo = experienciaLaboral.cargo
-        newExperiencia.periodo = experienciaLaboral.periodo
-        newExperiencia.tiempo = experienciaLaboral.tiempo
+        newExperiencia.entidad = experienciaLaboral1.entidad
+        newExperiencia.cargo = experienciaLaboral1.cargo
+        newExperiencia.periodo = experienciaLaboral1.periodo
+        newExperiencia.tiempo = experienciaLaboral1.tiempo
         newExperiencia.postulante_id = newPostulante.id
         await newExperiencia.save(trx) 
       }
     }
     /** :: Experiencia (especifica) tipo 2 :: */
     for (let index = 0; index < requestExperiencia2.length; index++) {
-      const { experienciaLaboralEsp } = requestExperiencia2[index]
-      if (experienciaLaboralEsp.entidad && experienciaLaboralEsp.cargo && experienciaLaboralEsp.periodo && experienciaLaboralEsp.tiempo) {
+      const { experienciaLaboral2 } = requestExperiencia2[index]
+      if (experienciaLaboral2.entidad && experienciaLaboral2.cargo && experienciaLaboral2.periodo && experienciaLaboral2.tiempo) {
         const newExperiencia = new Experiencia()
+        //subiendo archivo
+        const fileExp = request.file(`experienciaLaboral2[${index}][archivo]`, {
+          maxSize: '20mb',
+          allowedExtensions: FilesAcepted
+        })
+
+        if (fileExp) {
+          await fileExp.move(pathUpload, {//Helpers.tmpPath('uploads')
+            name: `${new Date().getTime()}-${fileExp.clientName}`,
+            overwrite: true
+          })        
+          newExperiencia.filepath = '/uploads/' + fileExp.fileName;
+        }
         newExperiencia.experienciastipo_id = 2
-        newExperiencia.entidad = experienciaLaboralEsp.entidad
-        newExperiencia.cargo = experienciaLaboralEsp.cargo
-        newExperiencia.periodo = experienciaLaboralEsp.periodo
-        newExperiencia.tiempo = experienciaLaboralEsp.tiempo
+        newExperiencia.entidad = experienciaLaboral2.entidad
+        newExperiencia.cargo = experienciaLaboral2.cargo
+        newExperiencia.periodo = experienciaLaboral2.periodo
+        newExperiencia.tiempo = experienciaLaboral2.tiempo
         newExperiencia.postulante_id = newPostulante.id
         await newExperiencia.save(trx) 
       }
@@ -205,47 +244,15 @@ class PostulanteController {
     await trx.commit()
 
     session.flash({ success: 'Registro Completado Exitosamente!' })
-    return response.redirect('back')
-    //response.redirect('/index', 201)
+    return response.redirect('/postulantes/registro-completo')
   }
 
 
-  async show({ params, request, response, view }) {
+  async registroOk({ view }) {
+    return view.render('public.registropostulantesOk')
   }
 
-  /**
-   * Render a form to update an existing postulante.
-   * GET postulantes/:id/edit
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async edit({ params, request, response, view }) {
-  }
-
-  /**
-   * Update postulante details.
-   * PUT or PATCH postulantes/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async update({ params, request, response }) {
-  }
-
-  /**
-   * Delete a postulante with id.
-   * DELETE postulantes/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async destroy({ params, request, response }) {
-  }
+  
 }
 
 module.exports = PostulanteController

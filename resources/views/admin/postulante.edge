@@ -76,6 +76,7 @@
                           <th>ENTIDAD QUE LO EMITIÓ</th>
                           <th>N° DE HORAS </th>
                           <th>FECHA DE EXPEDICIÓN</th>
+                          <th>Archivo</th>
                       </thead>
                       @each(acreditacion in acreditaciones)
                       <tr>
@@ -83,6 +84,13 @@
                         <td>{{ acreditacion.entidad }}</td>
                         <td>{{ acreditacion.horas }}</td>
                         <td>{{ acreditacion.fecha.toDateString() }}</td>
+                        <td>
+                            @if(acreditacion.filepath)
+                            <a href="{{acreditacion.filepath}}" target="_blank">
+                                <i class="material-icons">insert_drive_file</i>
+                            </a>                              
+                            @endif
+                        </td>
                       </tr>
                       @endeach
                   </table>
@@ -100,6 +108,7 @@
                           <th>CARGO QUE DESEMPEÑO</th>
                           <th>PERIODO DE TRABAJO</th>
                           <th>TIEMPO en años-meses</th>
+                          <th>Archivo</th>
                       </thead>
                       @each(experiencia in experiencias)
                       <tr>
@@ -107,6 +116,13 @@
                         <td>{{ experiencia.cargo }}</td>
                         <td>{{ experiencia.periodo }}</td>
                         <td>{{ experiencia.tiempo }}</td>
+                        <td>
+                            @if(experiencia.filepath)
+                            <a href="{{experiencia.filepath}}" target="_blank">
+                                <i class="material-icons">insert_drive_file</i>
+                            </a>                              
+                            @endif
+                        </td>
                       </tr>
                       @endeach
                   </table>

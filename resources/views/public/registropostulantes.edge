@@ -11,16 +11,7 @@
             </button>
         </div>
     @endif
-    @if(flashMessage('success'))
-        <div class="card-alert card green lighten-5">
-            <div class="card-content green-text">
-                <strong>Well done!</strong> {{ flashMessage('success') }}</a>
-            </div>
-            <button type="button" class="close green-text" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">×</span>
-            </button>
-        </div>
-    @endif
+
     <form id="app" method="POST" action="/postulantes/store" enctype="multipart/form-data">
         {{ csrfField() }}
     <ul id="collapse1" class="collapsible popout">
@@ -95,7 +86,7 @@
                             <input type="text" class="m-input" id="e1" required name="gradomaestria[mencion]">
                         </div>
                         <div class="input-field col m6">
-                            <label for="e2" class="active">Expedición</label>
+                            <label for="e2" class="active">Fecha de Expedición</label>
                             <input type="date" id="e2" required name="gradomaestria[expedicion]">
                         </div>
                         <div class="input-field col m6">
@@ -118,7 +109,7 @@
                             <input type="text" class="m-input" id="m2" required name="egresadomaestria[mencion]">
                         </div>
                         <div class="input-field col m6">  
-                            <label for="m3" class="active">Expedición</label>
+                            <label for="m3" class="active">Fecha de Expedición</label>
                             <input type="date"  id="m3" required name="egresadomaestria[expedicion]">
                         </div>
                         <div class="input-field col m6">
@@ -142,7 +133,7 @@
                             <input type="text" class="m-input" id="tp2" required name="tituloprofesional[mencion]">
                         </div>
                         <div class="input-field col m6">  
-                            <label for="tp3" class="active">Expedición</label>
+                            <label for="tp3" class="active">Fecha de Expedición</label>
                             <input type="date" id="tp3" required name="tituloprofesional[expedicion]">
                         </div>
                         <div class="input-field col m6">  
@@ -165,7 +156,7 @@
                             <input type="text" class="m-input" id="gb2" required name="gradobachiller[mencion]"> 
                         </div>
                         <div class="input-field col m6">  
-                            <label for="gb3" class="active">Expedición</label>
+                            <label for="gb3" class="active">Fecha de Expedición</label>
                             <input type="date" id="gb3" required name="gradobachiller[expedicion]">
                         </div>
                         <div class="input-field col m6">
@@ -199,35 +190,44 @@
                             <th>FECHA</th>
                         </thead>
                         <tbody>
-                            <tr v-for="(n,i) in acreditados" :key="'acreditados'+n">
-                                <td>
-                                    <div class="input-field col m6"> 
-                                        <label :for="'acr1'+n">Denominación</label>
-                                        <input type="text" class="m-input" :id="'acr1'+n" :name="'acreditacion['+i+'][denominacion]'">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-field"> 
-                                        <label :for="'acr2'+n">Entidad</label>
-                                        <input type="text" class="m-input" :id="'acr2'+n" :name="'acreditacion['+i+'][entidad]'">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-field"> 
-                                        <label :for="'acr3'+n">N° horas</label>
-                                        <input type="text" class="m-input" :id="'acr3'+n" :name="'acreditacion['+i+'][horas]'">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-field"> 
-                                        <label :for="'acr4'+n" class="active">fecha</label>
-                                        <input type="date"  :id="'acr4'+n" :name="'acreditacion['+i+'][fecha]'">
-                                    </div>
-                                </td>
-                            </tr>
+                            <template v-for="(n,i) in acreditados">
+                                <tr :key="'acreditados'+n" style="border-bottom: none;">
+                                    <td>
+                                        <div class="input-field col m6"> 
+                                            <label :for="'acr1'+n">Denominación</label>
+                                            <input type="text" class="m-input" :id="'acr1'+n" :name="'acreditacion['+i+'][denominacion]'">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-field"> 
+                                            <label :for="'acr2'+n">Entidad</label>
+                                            <input type="text" class="m-input" :id="'acr2'+n" :name="'acreditacion['+i+'][entidad]'">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-field"> 
+                                            <label :for="'acr3'+n">N° horas</label>
+                                            <input type="text" class="m-input" :id="'acr3'+n" :name="'acreditacion['+i+'][horas]'">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-field"> 
+                                            <label :for="'acr4'+n" class="active">fecha</label>
+                                            <input type="date"  :id="'acr4'+n" :name="'acreditacion['+i+'][fecha]'">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid;">
+                                    <td colspan="4">
+                                        <input type="file" accept=".pdf,.docx,.png,.jpg" :name="'acreditacion['+i+'][archivo]'">
+                                    </td>
+                                </tr>
+                            </template>
+                            
+                            
                             <tr>
                                 <td colspan="5" class="center-align">
-                                    <button type="button" v-on:click="acreditados++" 
+                                    <button type="button" v-on:click="addacreditaciones" 
                                     class="btn btn-raised green darken-2" style="width: 100% !important;margin-bottom: 10px">
                                         agregar 1<i class="material-icons right">add</i>
                                     </button>
@@ -266,36 +266,44 @@
                             <th>TIEMPO (años-meses)</th>
                         </thead>
                         <tbody>
-                            <tr v-for="(n,i) in expLaboral" :key="'expLaboral_'+n">
-                                <td>
-                                    <div class="input-field"> 
-                                        <label :for="'exp1_'+n">Entidad</label>
-                                        <input type="text" class="m-input" :id="'exp1_'+n" :name="'experienciaLaboral['+i+'][entidad]'">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-field"> 
-                                        <label :for="'exp2_'+n">Cargo</label>
-                                        <input type="text" class="m-input" :id="'exp2_'+n" :name="'experienciaLaboral['+i+'][cargo]'">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-field"> 
-                                        <label :for="'exp3_'+n">Periodo</label>
-                                        <input type="text" class="m-input" :id="'exp3_'+n" :name="'experienciaLaboral['+i+'][periodo]'">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-field"> 
-                                        <label :for="'exp4_'+n">Tiempo</label>
-                                        <input type="text" class="m-input" :id="'exp4_'+n" :name="'experienciaLaboral['+i+'][tiempo]'">
-                                    </div>
-                                </td>
-                            </tr>
+                            <template v-for="(n,i) in expLaboral">
+                                <tr :key="'expLaboral_'+n" style="border-bottom: none;">
+                                    <td>
+                                        <div class="input-field"> 
+                                            <label :for="'exp1_'+n">Entidad</label>
+                                            <input type="text" class="m-input" :id="'exp1_'+n" :name="'experienciaLaboral1['+i+'][entidad]'">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-field"> 
+                                            <label :for="'exp2_'+n">Cargo</label>
+                                            <input type="text" class="m-input" :id="'exp2_'+n" :name="'experienciaLaboral1['+i+'][cargo]'">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-field"> 
+                                            <label :for="'exp3_'+n">Periodo</label>
+                                            <input type="text" class="m-input" :id="'exp3_'+n" :name="'experienciaLaboral1['+i+'][periodo]'">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-field"> 
+                                            <label :for="'exp4_'+n">Tiempo</label>
+                                            <input type="text" class="m-input" :id="'exp4_'+n" :name="'experienciaLaboral1['+i+'][tiempo]'">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid;">
+                                    <td colspan="4">
+                                        <input type="file" accept=".pdf,.docx,.png,.jpg" :name="'experienciaLaboral1['+i+'][archivo]'">
+                                    </td>
+                                </tr>
+                            </template>
+                            
                             <tr>
                                 <td colspan="5" class="center-align">
-                                    <button type="button" v-on:click="expLaboral++" 
-                                    class="btn btn-raised green darken-2" style="width: 100% !important;margin-bottom: 10px">
+                                    <button type="button" v-on:click="addexpLaboral" class="btn btn-raised green darken-2"
+                                     style="width: 100% !important;margin-bottom: 10px">
                                         agregar 1<i class="material-icons right">add</i>
                                     </button>
                                     <button v-if="expLaboral>1" v-on:click="expLaboral--" type="button" 
@@ -332,36 +340,44 @@
                             <th>TIEMPO (años-meses)</th>
                         </thead>
                         <tbody>
-                            <tr v-for="(n,i) in expLaboralEsp" :key="'expLaboralEsp_'+n">
-                                <td>
-                                    <div class="input-field"> 
-                                        <label :for="'exp10'+n">Entidad</label>
-                                        <input type="text" class="m-input" :id="'exp10'+n" :name="'experienciaLaboralEsp['+i+'][entidad]'">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-field"> 
-                                        <label :for="'exp20'+n">Cargo</label>
-                                        <input type="text" class="m-input" :id="'exp20'+n" :name="'experienciaLaboralEsp['+i+'][cargo]'">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-field"> 
-                                        <label :for="'exp30'+n">Periodo</label>
-                                        <input type="text" class="m-input" :id="'exp30'+n" :name="'experienciaLaboralEsp['+i+'][periodo]'">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-field"> 
-                                        <label :for="'exp40'+n">Tiempo</label>
-                                        <input type="text" class="m-input" :id="'exp40'+n" :name="'experienciaLaboralEsp['+i+'][tiempo]'">
-                                    </div>
-                                </td>
-                            </tr>
+                            <template v-for="(n,i) in expLaboralEsp">
+                                <tr :key="'expLaboralEsp_'+n" style="border-bottom: none;">
+                                    <td>
+                                        <div class="input-field"> 
+                                            <label :for="'exp10'+n">Entidad</label>
+                                            <input type="text" class="m-input" :id="'exp10'+n" :name="'experienciaLaboral2['+i+'][entidad]'">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-field"> 
+                                            <label :for="'exp20'+n">Cargo</label>
+                                            <input type="text" class="m-input" :id="'exp20'+n" :name="'experienciaLaboral2['+i+'][cargo]'">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-field"> 
+                                            <label :for="'exp30'+n">Periodo</label>
+                                            <input type="text" class="m-input" :id="'exp30'+n" :name="'experienciaLaboral2['+i+'][periodo]'">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-field"> 
+                                            <label :for="'exp40'+n">Tiempo</label>
+                                            <input type="text" class="m-input" :id="'exp40'+n" :name="'experienciaLaboral2['+i+'][tiempo]'">
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid;">
+                                    <td colspan="4">
+                                        <input type="file" accept=".pdf,.docx,.png,.jpg" :name="'experienciaLaboral2['+i+'][archivo]'">
+                                    </td>
+                                </tr>
+
+                            </template>
                             
                             <tr>
                                 <td colspan="5" class="center-align">
-                                    <button type="button" v-on:click="expLaboralEsp++" 
+                                    <button type="button" v-on:click="addexpLaboralEsp" 
                                     class="btn btn-raised green darken-2" style="width: 100% !important;margin-bottom: 10px">
                                         agregar 1<i class="material-icons right">add</i>
                                     </button>
@@ -390,7 +406,7 @@
     </ul>
     <div v-if="btnSubmit" class="card" >
         <div class="card-content">
-            <p class="right-align">
+            <p class="center-align">
                 <button style="margin-bottom: 10px" type="submit" class="btn btn-raised blue darken-4">
                     finalizar <i class="material-icons right">send</i>
                 </button>

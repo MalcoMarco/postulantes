@@ -1,0 +1,13 @@
+@layout('layouts.postulantes')
+@section('content')
+@if(flashMessage('success'))
+    <div class="card-alert card green lighten-5">
+        <div class="card-content green-text">
+            <strong>{{ flashMessage('success') }}</strong></a>
+        </div>
+        <button type="button" class="close green-text" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    @endif
+@endsection

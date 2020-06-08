@@ -19,13 +19,15 @@
   <body>
     <nav class="light-blue lighten-1" role="navigation">
         <div class="nav-wrapper">
-            <a id="logo-container" href="/admin" class="brand-logo">Admin</a>
+            <a id="logo-container" href="/admin" class="brand-logo">
+            <img src="https://www.dreancash.gob.pe/Imagenes/logohome.png" style="height: 45px;" alt="">
+            </a>
           <ul class="right hide-on-med-and-down">
               <li class="active"><a href="/admin">Postulantes</a> </li>
                 <li>
                     <a class="dropdown-trigger" href="#!" 
                     data-target="dropdown1" data-beloworigin="true">
-                    {{auth.user.username}}
+                    Admin
                     <i class="material-icons right">arrow_drop_down</i></a>
                     <!-- Dropdown Structure -->
                     <ul id="dropdown1" class="dropdown-content">
@@ -36,6 +38,7 @@
           </ul>
           {{--  ::mobile::  --}}
           <ul id="nav-mobile" class="sidenav">
+            <li><a href="/admin">Postulantes</a> </li>
             <li><a href="/logout">Cerrar Sesion</a></li>
             <li>{{auth.user.username}} </li>
           </ul>
