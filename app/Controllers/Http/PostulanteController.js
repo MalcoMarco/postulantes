@@ -4,6 +4,9 @@
  */
 const Helpers = use('Helpers')
 const { validate } = use('Validator')
+const Database = use('Database')
+const Postulante = use('App/Models/Postulante')
+const Cargo = use('App/Models/Cargo')
 //const { session } = use('Session')
 class PostulanteController {
 
@@ -22,7 +25,7 @@ class PostulanteController {
       email: 'required|email'
     }
     const postulanteRequestData = request.only(
-      ['fullname', 'dni', 'email', 'movil', 'cargo_id', 'carreraprofesional']
+      ['fullname', 'dni', 'email', 'movil', 'cargo_id', 'carreraprofesional','ugel']
     )
     //validar
     const validationPostulante = await validate(postulanteRequestData, rulesPostulante)
@@ -51,7 +54,7 @@ class PostulanteController {
     const egresomaestria = new Estudio()
     const titulo = new Estudio()
     const bachiller = new Estudio()
-    
+
     /** :: estudios :: */
     //subiendo Archivos ESTUDIOS
     const pathUpload = "public/uploads/";
@@ -170,18 +173,18 @@ class PostulanteController {
           await fileAcred.move(pathUpload, {//Helpers.tmpPath('uploads')
             name: `${new Date().getTime()}-${fileAcred.clientName}`,
             overwrite: true
-          })        
+          })
           newAcreditacion.filepath = '/uploads/' + fileAcred.fileName;
         }
-        
-        
+
+
         newAcreditacion.denominacion = acreditacion.denominacion
         newAcreditacion.entidad = acreditacion.entidad
         newAcreditacion.horas = acreditacion.horas
         newAcreditacion.fecha = acreditacion.fecha
         newAcreditacion.postulante_id = newPostulante.id
 
-        await newAcreditacion.save(trx) 
+        await newAcreditacion.save(trx)
       }
     }
     /** :: Experiencia (laboral) tipo 1 :: */
@@ -199,7 +202,7 @@ class PostulanteController {
           await fileExp.move(pathUpload, {//Helpers.tmpPath('uploads')
             name: `${new Date().getTime()}-${fileExp.clientName}`,
             overwrite: true
-          })        
+          })
           newExperiencia.filepath = '/uploads/' + fileExp.fileName;
         }
         newExperiencia.experienciastipo_id = 1
@@ -208,7 +211,7 @@ class PostulanteController {
         newExperiencia.periodo = experienciaLaboral1.periodo
         newExperiencia.tiempo = experienciaLaboral1.tiempo
         newExperiencia.postulante_id = newPostulante.id
-        await newExperiencia.save(trx) 
+        await newExperiencia.save(trx)
       }
     }
     /** :: Experiencia (especifica) tipo 2 :: */
@@ -226,7 +229,7 @@ class PostulanteController {
           await fileExp.move(pathUpload, {//Helpers.tmpPath('uploads')
             name: `${new Date().getTime()}-${fileExp.clientName}`,
             overwrite: true
-          })        
+          })
           newExperiencia.filepath = '/uploads/' + fileExp.fileName;
         }
         newExperiencia.experienciastipo_id = 2
@@ -235,7 +238,7 @@ class PostulanteController {
         newExperiencia.periodo = experienciaLaboral2.periodo
         newExperiencia.tiempo = experienciaLaboral2.tiempo
         newExperiencia.postulante_id = newPostulante.id
-        await newExperiencia.save(trx) 
+        await newExperiencia.save(trx)
       }
     }
 
@@ -244,15 +247,66 @@ class PostulanteController {
     await trx.commit()
 
     session.flash({ success: 'Registro Completado Exitosamente!' })
-    return response.redirect('/postulantes/registro-completo')
+    return response.redirect(`/postulantes/registro-completo/${newPostulante.id}`)
   }
 
 
-  async registroOk({ view }) {
-    return view.render('public.registropostulantesOk')
+  async registroOk({ view, params }) {
+    var pdf = require('html-pdf');
+
+    const postulante = await Postulante.findOrFail(params.postulante_id)
+    const cargo = await Cargo.findOrFail(postulante.cargo_id)
+    const estudios = await Database.table('estudios').where('postulante_id', postulante.id)
+      .innerJoin('estudiotipos', 'estudiotipos.id', 'estudios.estudiotipo_id')
+      .select('estudios.*', 'estudiotipos.nombre')
+    const acreditaciones = await Database.table('acreditacions').where('postulante_id', postulante.id)
+      .select('*')
+    const experiencias = await Database.table('experiencias').where('postulante_id', postulante.id)
+      .select('*')
+
+    //return view.render('pdf.postulante', { postulante,cargo,estudios,acreditaciones,experiencias })
+    var contenido = view.render('pdf.postulante', { postulante, cargo, estudios, acreditaciones, experiencias })
+    const options = {
+      "format": 'A4',
+      "border": {
+        "top": "2.5cm",            // default is 0, units: mm, cm, in, px
+        "right": "2cm",
+        "bottom": "2.5cm",
+        "left": "2cm"
+      },
+    };
+    const PdfNAme = `./public/registropdf/registro-2020-${params.postulante_id}.pdf`
+    await pdf.create(contenido,options).toFile(PdfNAme, function (err, res) {
+      //if (err) return console.log(err);
+      //return res; // { filename: './public/registropdf/salida.pdf' }
+    });
+    return view.render('public.registropostulantesOk', { postulante_id: params.postulante_id })
   }
 
-  
+  async pdf({ view }) {
+    var pdf = require('html-pdf');
+    const id = 29
+    const postulante = await Postulante.findOrFail(id)
+    const cargo = await Cargo.findOrFail(postulante.cargo_id)
+    const estudios = await Database.table('estudios').where('postulante_id', postulante.id)
+      .innerJoin('estudiotipos', 'estudiotipos.id', 'estudios.estudiotipo_id')
+      .select('estudios.*', 'estudiotipos.nombre')
+    const acreditaciones = await Database.table('acreditacions').where('postulante_id', postulante.id)
+      .select('*')
+    const experiencias = await Database.table('experiencias').where('postulante_id', postulante.id)
+      .select('*')
+
+    var contenido = view.render('pdf.postulante', { postulante, cargo, estudios, acreditaciones, experiencias })
+    //return view.render('pdf.postulante', { postulante,cargo,estudios,acreditaciones,experiencias })
+    const PdfNAme = `./public/registropdf/registro-2020-${id}.pdf`
+    const registroPdf = await pdf.create(contenido).toFile(PdfNAme, function (err, res) {
+      //if (err) return console.log(err);
+      //console.log(res);  // { filename: './public/registropdf/salida.pdf' }
+    });
+    return registroPdf
+  }
+
+
 }
 
 module.exports = PostulanteController

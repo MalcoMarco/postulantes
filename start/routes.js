@@ -19,13 +19,14 @@ const Route = use('Route')
 
 //Route.on('/').render('welcome')
 Route.get('/', 'PostulanteController.index');
-Route.get('/index', 'PostulanteController.index');
+Route.get('index', 'PostulanteController.index');
+Route.get('/pdf', 'PostulanteController.pdf')
 
 
 // ::: POSTULANTES :::
 Route.group(() => {
   Route.post('store', 'PostulanteController.store')
-  Route.get('registro-completo', 'PostulanteController.registroOk')
+  Route.get('registro-completo/:postulante_id', 'PostulanteController.registroOk')
 }).prefix('postulantes')
 
 

@@ -1,13 +1,19 @@
 @layout('layouts.postulantes')
 @section('content')
-@if(flashMessage('success'))
-    <div class="card-alert card green lighten-5">
-        <div class="card-content green-text">
-            <strong>{{ flashMessage('success') }}</strong></a>
+    @if(flashMessage('success'))
+        <div class="card-alert card green lighten-5">
+            <div class="card-content green-text">
+                <strong>{{ flashMessage('success') }}</strong></a>
+            </div>
+            <button type="button" class="close green-text" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
         </div>
-        <button type="button" class="close green-text" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">×</span>
-        </button>
-    </div>
     @endif
+    <p style="text-align: center; margin-top: 20px">
+        <a href="/registropdf/registro-2020-{{postulante_id}}.pdf" target="_blank" class="waves-effect waves-light btn">
+        Descargar Registro <i class="material-icons right">cloud_download</i> 
+        </a>
+    </p>
+    
 @endsection

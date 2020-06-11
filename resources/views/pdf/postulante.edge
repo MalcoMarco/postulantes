@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+       
+    <style >
+        
+        .container {
+            width: 100%;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        .mt-3,.my-3 {
+            margin-top: 1rem !important;
+        }
+        .text-center{
+            text-align: center
+        }
+        .table-bordered {
+            border: 1px solid #dee2e6;
+        }
+
+        .table-bordered td,.table-bordered th {
+            border: 1px solid #dee2e6;
+        }
+
+        table td,.table th {
+            padding: .4rem;
+            vertical-align: top;
+            border-top: 1px solid #dee2e6;
+        }
+        table {
+            width: 100%;
+            margin-bottom: 1rem;
+            background-color:transparent;
+        }
+        body {           
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            font-size: 10px;
+            line-height: 1.5;
+            color: #212529;
+            text-align: left;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Postulante</h1>
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <td>{{postulante.fullname}} </td>
+            </tr>
+            <tr>
+                <th>DNI</th>
+                <td>{{postulante.dni}} </td>
+            </tr>
+            <tr>
+                <th>Email </th>
+                <td>{{postulante.email}} </td>
+            </tr>
+            <tr>
+                <th>Movil</th>
+                <td>{{postulante.movil}} </td>
+            </tr>
+            <tr>
+                <th>Carrera Profesional</th>
+                <td>{{postulante.carreraprofesional}} </td>
+            </tr>
+            <tr>
+                <th>UGEL</th>
+                <td>{{postulante.ugel}} </td>
+            </tr>
+            <tr>
+                <th>Cargo al que postula</th>
+                <td>{{cargo.nombre}} </td>
+            </tr>
+        </table>  
+    
+        @if(estudios.length>0)
+            <h2>Estudios:</h2>
+            <table>
+                @each(estudio in estudios)
+                <tr>
+                    <th colspan="2" > <h3 class="text-center">{{estudio.nombre}}</h3> </th>
+                </tr>
+                <tr>
+                    <th>Universidad</th>
+                    <td>{{estudio.universidad}} </td>
+                </tr>
+                <tr>
+                    <th>Mencion</th>
+                    <td>{{estudio.mencion}} </td>
+                </tr>
+                <tr>
+                    <th>Fecha Expedicion</th>
+                    <td>{{estudio.expedicion.toLocaleDateString()}} </td>
+                </tr>
+                
+                @endeach
+            </table>
+        @endif    
+        <br>
+        @if(acreditaciones.length>0)
+            <h3>CAPACITACIONES, CURSOS O DIPLOMADOS ACREDITADOS EN EL SECTOR 
+                EDUCACIÓN EN GESTIÓN DE RIESGO DE DESASTRES realizados los últimos 5 años:</h3>
+            <table>
+                <thead>
+                    <th>DENOMINACIÓN DEL CURSO</th>
+                    <th>ENTIDAD QUE LO EMITIÓ</th>
+                    <th>N° DE HORAS </th>
+                    <th>FECHA DE EXPEDICIÓN</th>
+                </thead>
+                @each(acreditacion in acreditaciones)
+                <tr>
+                    <td>{{ acreditacion.denominacion }}</td>
+                    <td>{{ acreditacion.entidad }}</td>
+                    <td>{{ acreditacion.horas }}</td>
+                    <td>{{ acreditacion.fecha.toLocaleDateString() }}</td>
+                </tr>
+                @endeach
+            </table>
+        @endif  
+        <br>
+        @if(experiencias.length>0)
+            <h3>EXPERIENCIA LABORAL GENERAL Y ESPECIFICA</h3>
+            <table>
+                <thead>
+                    <th>ENTIDAD EN QUE LABORO</th>
+                    <th>CARGO QUE DESEMPEÑO</th>
+                    <th>PERIODO DE TRABAJO</th>
+                    <th>TIEMPO en años-meses</th>
+                </thead>
+                @each(experiencia in experiencias)
+                <tr>
+                    <td>{{ experiencia.entidad }}</td>
+                    <td>{{ experiencia.cargo }}</td>
+                    <td>{{ experiencia.periodo }}</td>
+                    <td>{{ experiencia.tiempo }}</td>
+                </tr>
+                @endeach
+            </table>
+        @endif
+    </div>    
+</body>
+</html>
+
+

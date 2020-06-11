@@ -18,12 +18,16 @@
                         <td>{{postulante.email}} </td>
                     </tr>
                     <tr>
+                        <th>Movil</th>
+                        <td>{{postulante.movil}} </td>
+                    </tr>
+                    <tr>
                         <th>Carrera Profesional</th>
                         <td>{{postulante.carreraprofesional}} </td>
                     </tr>
                     <tr>
-                        <th>Movil</th>
-                        <td>{{postulante.movil}} </td>
+                        <th>UGEL</th>
+                        <td>{{postulante.ugel}} </td>
                     </tr>
                     <tr>
                         <th>Cargo al que postula</th>
@@ -53,7 +57,7 @@
                       </tr>
                       <tr>
                           <th>Fecha Expedicion</th>
-                          <td>{{estudio.expedicion.toDateString()}} </td>
+                          <td>{{estudio.expedicion.toLocaleDateString()}} </td>
                       </tr>
                       <tr>
                           <th>Archivo</th>
@@ -83,7 +87,7 @@
                         <td>{{ acreditacion.denominacion }}</td>
                         <td>{{ acreditacion.entidad }}</td>
                         <td>{{ acreditacion.horas }}</td>
-                        <td>{{ acreditacion.fecha.toDateString() }}</td>
+                        <td>{{ acreditacion.fecha.toLocaleDateString() }}</td>
                         <td>
                             @if(acreditacion.filepath)
                             <a href="{{acreditacion.filepath}}" target="_blank">

@@ -44,11 +44,15 @@
                             <input v-model="postulante.movil" type="text" class="m-input" name="movil" id="movil" required>
                         </div>
                     </div>
-                    <div class="input-field">  
+                    <div class="input-field col">  
                         <label for="carreraprofesional">Carrera profesional</label>
                         <input v-model="postulante.carreraprofesional" type="text" class="m-input" name="carreraprofesional" id="carreraprofesional" required>
-                    </div>            
-                    <div class="input-field col s12">
+                    </div>
+                    <div class="input-field col">  
+                        <label for="ugel">UGEL</label>
+                        <input type="text" class="m-input" name="ugel" id="ugel" required>
+                    </div>           
+                    <div class="input-field col">
                         <select  v-model="postulante.cargo_id" name="cargo_id" id="cargo" required>
                             <option value="" disabled selected>Seleccione</option>
                             <option value="1">COORDINADORES LOCALES PP 0068 </option>
@@ -56,6 +60,7 @@
                         </select>
                         <label>CARGO AL QUE POSTULA</label>
                     </div>
+                    
                 </div>
                 <div class="right-align">                    
                     <button type="button" class="btn btn-raised btn-info" v-on:click="validatePostulantes">
