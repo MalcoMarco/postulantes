@@ -11,6 +11,7 @@ class AdminController {
         const postulantes = await Database.table('postulantes')
             .select('fullname', 'email', 'carreraprofesional', 'movil', 'cargo_id', 'postulantes.id', 'nombre as cargoname')
             .innerJoin('cargos', 'cargos.id', 'postulantes.cargo_id')
+            //.where('postulantes.created_at','>', '2020-06-15 00:00:00')
         //.paginate(1,1)
         //return postulantes
         return view.render('admin.index', { postulantes })

@@ -1,7 +1,10 @@
 'use strict'
 
 class UserController {
-    async formlogin({view}){
+    async formlogin({view,response,auth}){
+        if (auth.user) {
+            return response.redirect('/admin')
+           }
         return view.render('auth.login');
     }
 

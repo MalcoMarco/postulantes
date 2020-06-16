@@ -30,8 +30,8 @@ Route.group(() => {
 }).prefix('postulantes')
 
 
-Route.get('login', 'UserController.formlogin').middleware('guest')
-Route.post('dologin', 'UserController.login').middleware('guest')
+Route.get('login', 'UserController.formlogin')//.middleware('guest')
+Route.post('dologin', 'UserController.login')//.middleware('guest')
 Route.get('register', 'Auth/RegisterController.FormUserRegister').middleware('guest')
 Route.post('register', 'Auth/RegisterController.registeruser').middleware('guest')
 
