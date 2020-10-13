@@ -11,6 +11,8 @@ const Cargo = use('App/Models/Cargo')
 class PostulanteController {
 
   async index({ request, response, view }) {
+    //const cargos = await Database.table('cargos').select('id', 'nombre');
+
     return view.render('public.registropostulantes');
   }
 
@@ -25,7 +27,7 @@ class PostulanteController {
       email: 'required|email'
     }
     const postulanteRequestData = request.only(
-      ['fullname', 'dni', 'email', 'movil', 'cargo_id', 'carreraprofesional','ugel']
+      ['fullname', 'dni', 'email', 'movil', 'cargo_id', 'carreraprofesional', 'ugel']
     )
     //validar
     const validationPostulante = await validate(postulanteRequestData, rulesPostulante)
@@ -276,7 +278,7 @@ class PostulanteController {
       },
     };
     const PdfNAme = `./public/registropdf/registro-2020-${params.postulante_id}.pdf`
-    await pdf.create(contenido,options).toFile(PdfNAme, function (err, res) {
+    await pdf.create(contenido, options).toFile(PdfNAme, function (err, res) {
       //if (err) return console.log(err);
       //return res; // { filename: './public/registropdf/salida.pdf' }
     });

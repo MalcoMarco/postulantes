@@ -1,4 +1,5 @@
 'use strict'
+const Cargo = use('App/Models/Cargo')
 
 class RegisterController {
     FormUserRegister({view}){
