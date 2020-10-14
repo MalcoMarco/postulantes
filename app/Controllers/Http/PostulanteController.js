@@ -10,7 +10,7 @@ const Cargo = use('App/Models/Cargo')
 //const { session } = use('Session')
 class PostulanteController {
 
-   permitirRegistro=false;
+   permitirRegistro=true;
 
   async index({ request, response, view }) {
     return view.render('public.registropostulantes',{permitirRegistro:this.permitirRegistro});
