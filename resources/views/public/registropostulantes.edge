@@ -12,421 +12,428 @@
             </button>
         </div>
     @endif
+    @if(permitirRegistro)
+        <form id="app" method="POST" action="/postulantes/store" enctype="multipart/form-data">
+            {{ csrfField() }}
+            <ul id="collapse1" class="collapsible popout">
+                <li class="active">
+                    <div class="collapsible-header">
+                        <i :class="['material-icons left',postulanteOk?'green-text text-darken-2':'']"
+                        v-text="postulanteOk?'check_circle':'edit'"></i>
+                        Datos Personales
+                    </div>
+                    <div class="collapsible-body">
+                        {{--  ::: 1 :::  --}}
+                        <div class="datos-personales">
+                            <div class="row">
+                                <div class="input-field col m6">
+                                    <label for="nombres">Nombres y Apellidos</label>
+                                    <input v-model="postulante.nombres" type="text" class="m-input" name="fullname" id="nombres" class="validate" required="" aria-required="true">
+                                </div>
+                                <div class="input-field col m6">
+                                    <label for="dni">DNI</label>
+                                    <input v-model="postulante.dni" type="text" class="m-input" name="dni" id="dni" class="validate" required="" aria-required="true">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col m6">
+                                    <label for="email">Correo Electrónico</label>
+                                    <input v-model="postulante.email" type="email" class="m-input" name="email" id="email" required>
+                                </div>
+                                <div class="input-field col m6">
+                                    <label for="movil">N° móvil</label>
+                                    <input v-model="postulante.movil" type="text" class="m-input" name="movil" id="movil" required>
+                                </div>
+                            </div>
+                            <div class="input-field col">  
+                                <label for="carreraprofesional">Carrera profesional</label>
+                                <input v-model="postulante.carreraprofesional" type="text" class="m-input" name="carreraprofesional" id="carreraprofesional" required>
+                            </div>
+                            <div class="input-field col">  
+                                <label for="ugel">UGEL</label>
+                                <input type="text" class="m-input" name="ugel" id="ugel" required>
+                            </div>        
+                            <div class="input-field col">
+                                <select  v-model="postulante.cargo_id" name="cargo_id" id="cargo" required>
+                                    <!-- -->
+                                </select>
+                                <label>CARGO AL QUE POSTULA</label>
+                            </div>
+                            <!-- <option value="" disabled selected>Seleccion</option> 
+                            <option value="1">COORDINADORES LOCALES PP 0068 </option>
+                                    <option value="2">PROFESIONAL ADMINISTRATIVO PREVAED</option>
 
-    <form id="app" method="POST" action="/postulantes/store" enctype="multipart/form-data">
-        {{ csrfField() }}
-        <ul id="collapse1" class="collapsible popout">
-            <li class="active">
-                <div class="collapsible-header">
-                    <i :class="['material-icons left',postulanteOk?'green-text text-darken-2':'']"
-                    v-text="postulanteOk?'check_circle':'edit'"></i>
-                    Datos Personales
-                </div>
-                <div class="collapsible-body">
-                    {{--  ::: 1 :::  --}}
-                    <div class="datos-personales">
-                        <div class="row">
-                            <div class="input-field col m6">
-                                <label for="nombres">Nombres y Apellidos</label>
-                                <input v-model="postulante.nombres" type="text" class="m-input" name="fullname" id="nombres" class="validate" required="" aria-required="true">
-                            </div>
-                            <div class="input-field col m6">
-                                <label for="dni">DNI</label>
-                                <input v-model="postulante.dni" type="text" class="m-input" name="dni" id="dni" class="validate" required="" aria-required="true">
-                            </div>
+                                    <option value="3">COORDINADOR EMED</option>
+                                    <option value="4">PROFESIONAL EN MONITOREO EMED</option>   
+                                    <option value="5">TECNICO LOGISTICO</option>
+                                    <option value="6">ESPECIALISTA LEGAL</option>
+                                    <option value="7">APOYO ADMINISTRATIVO</option>
+                            -->
                         </div>
-                        <div class="row">
-                            <div class="input-field col m6">
-                                <label for="email">Correo Electrónico</label>
-                                <input v-model="postulante.email" type="email" class="m-input" name="email" id="email" required>
-                            </div>
-                            <div class="input-field col m6">
-                                <label for="movil">N° móvil</label>
-                                <input v-model="postulante.movil" type="text" class="m-input" name="movil" id="movil" required>
-                            </div>
-                        </div>
-                        <div class="input-field col">  
-                            <label for="carreraprofesional">Carrera profesional</label>
-                            <input v-model="postulante.carreraprofesional" type="text" class="m-input" name="carreraprofesional" id="carreraprofesional" required>
-                        </div>
-                        <div class="input-field col">  
-                            <label for="ugel">UGEL</label>
-                            <input type="text" class="m-input" name="ugel" id="ugel" required>
-                        </div>        
-                        <div class="input-field col">
-                            <select  v-model="postulante.cargo_id" name="cargo_id" id="cargo" required>
-                                <!-- -->
-                            </select>
-                            <label>CARGO AL QUE POSTULA</label>
-                        </div>
-                        <!-- <option value="" disabled selected>Seleccion</option> 
-                        <option value="1">COORDINADORES LOCALES PP 0068 </option>
-                                <option value="2">PROFESIONAL ADMINISTRATIVO PREVAED</option>
-
-                                <option value="3">COORDINADOR EMED</option>
-                                <option value="4">PROFESIONAL EN MONITOREO EMED</option>   
-                                <option value="5">TECNICO LOGISTICO</option>
-                                <option value="6">ESPECIALISTA LEGAL</option>
-                                <option value="7">APOYO ADMINISTRATIVO</option>
-                        -->
-                    </div>
-                    <div class="right-align">                    
-                        <button type="button" class="btn btn-raised btn-info" v-on:click="validatePostulantes">
-                        Continuar <i class="material-icons right">keyboard_arrow_right</i>
-                        </button>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="collapsible-header">
-                    <i class="material-icons left">edit</i>Estudios Realizados
-                </div>
-                <div class="collapsible-body">
-                    <div class="estudios">
-                        <p>
-                            <label>
-                            <input v-model="estudios.gradoMaestria" type="checkbox" class="filled-in" checked="checked" />
-                            <span>GRADO DE MAESTRIA</span>
-                            </label>
-                        </p>
-                        <div v-if="estudios.gradoMaestria" class="row">
-                            <div class="input-field col m6">  
-                                <label for="e0">Universidad</label>
-                                <input type="text" class="m-input" id="e0" required name="gradomaestria[universidad]">
-                            </div>
-                            <div class="input-field col m6">  
-                                <label for="e1">Mención</label>
-                                <input type="text" class="m-input" id="e1" required name="gradomaestria[mencion]">
-                            </div>
-                            <div class="input-field col m6">
-                                <label for="e2" class="active">Fecha de Expedición</label>
-                                <input type="date" id="e2" required name="gradomaestria[expedicion]">
-                            </div>
-                            <div class="input-field col m6">
-                                <input type="file" accept=".pdf,.docx,.png,.jpg" id="tp4" required name="gradomaestria[archivo]">
-                            </div>
-                        </div>
-                        <p>
-                            <label>
-                            <input v-model="estudios.egresadoMaestria" type="checkbox" class="filled-in" checked="checked" />
-                            <span>EGRESADO DE MAESTRIA</span>
-                            </label>
-                        </p>
-                        <div v-if="estudios.egresadoMaestria" class="row">
-                            <div class="input-field col m6">  
-                                <label for="m1">Universidad</label>
-                                <input type="text" class="m-input" id="m1" required name="egresadomaestria[universidad]">
-                            </div>
-                            <div class="input-field col m6">  
-                                <label for="m2">Mención</label>
-                                <input type="text" class="m-input" id="m2" required name="egresadomaestria[mencion]">
-                            </div>
-                            <div class="input-field col m6">  
-                                <label for="m3" class="active">Fecha de Expedición</label>
-                                <input type="date"  id="m3" required name="egresadomaestria[expedicion]">
-                            </div>
-                            <div class="input-field col m6">
-                                <input type="file" accept=".pdf,.docx,.png,.jpg" id="f2" required name="egresadomaestria[archivo]">
-                            </div>
-                        </div>
-
-                        <p>
-                            <label>
-                            <input v-model="estudios.titulo" type="checkbox" class="filled-in" checked="checked" />
-                            <span>TÍTULO PROFESIONAL</span>
-                            </label>
-                        </p>
-                        <div v-if="estudios.titulo" class="row">
-                            <div class="input-field col m6">  
-                                <label for="tp0">Universidad</label>
-                                <input type="text" class="m-input" id="tp0" required name="tituloprofesional[universidad]">
-                            </div>
-                            <div class="input-field col m6">  
-                                <label for="tp2">Mención</label>
-                                <input type="text" class="m-input" id="tp2" required name="tituloprofesional[mencion]">
-                            </div>
-                            <div class="input-field col m6">  
-                                <label for="tp3" class="active">Fecha de Expedición</label>
-                                <input type="date" id="tp3" required name="tituloprofesional[expedicion]">
-                            </div>
-                            <div class="input-field col m6">  
-                                <input type="file" accept=".pdf,.docx,.png,.jpg" id="tp4" required name="tituloprofesional[archivo]">
-                            </div>
-                        </div>
-                        <p>
-                            <label>
-                            <input v-model="estudios.bachiller" type="checkbox" class="filled-in" checked="checked" />
-                            <span>GRADO DE BACHILLER</span>
-                            </label>
-                        </p>
-                        <div v-if="estudios.bachiller" class="row">
-                            <div class="input-field col m6">  
-                                <label for="gb1">Universidad</label>
-                                <input type="text" class="m-input" id="gb1" required name="gradobachiller[universidad]">
-                            </div>
-                            <div class="input-field col m6">  
-                                <label for="gb2">Mención</label>
-                                <input type="text" class="m-input" id="gb2" required name="gradobachiller[mencion]"> 
-                            </div>
-                            <div class="input-field col m6">  
-                                <label for="gb3" class="active">Fecha de Expedición</label>
-                                <input type="date" id="gb3" required name="gradobachiller[expedicion]">
-                            </div>
-                            <div class="input-field col m6">
-                                <input type="file" accept=".pdf,.docx,.png,.jpg" id="gb4" required name="gradobachiller[archivo]">
-                            </div>
-                        </div>
-                    </div>
-                    <p class="right-align">                    
-                        <button style="margin-bottom: 10px" type="button" class="btn btn-raised blue-grey darken-1" onclick="instance.open(0);">
-                        volver <i class="material-icons left">keyboard_arrow_left</i>
-                        </button>
-                        <button style="margin-bottom: 10px" type="button" class="btn btn-raised btn-info" onclick="instance.open(2);">
-                        Continuar <i class="material-icons right">keyboard_arrow_right</i>
-                        </button>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div class="collapsible-header">
-                    <i class="material-icons left">edit</i>Acreditaciones
-                </div>
-                <div class="collapsible-body">
-                    <p>CAPACITACIONES, CURSOS O DIPLOMADOS ACREDITADOS EN EL SECTOR EDUCACIÓN EN GESTIÓN DE RIESGO DE DESASTRES
-                        realizados los últimos 5 años:</p>
-                        <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <th>DENOMINACION DEL CURSO DE EXPEDICION</th>
-                                <th>ENTIDAD QUE LO EMITIO</th>
-                                <th>N° DE HORAS</th>
-                                <th>FECHA</th>
-                            </thead>
-                            <tbody>
-                                <template v-for="(n,i) in acreditados">
-                                    <tr :key="'acreditados'+n" style="border-bottom: none;">
-                                        <td>
-                                            <div class="input-field col m6"> 
-                                                <label :for="'acr1'+n">Denominación</label>
-                                                <input type="text" class="m-input" :id="'acr1'+n" :name="'acreditacion['+i+'][denominacion]'">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="input-field"> 
-                                                <label :for="'acr2'+n">Entidad</label>
-                                                <input type="text" class="m-input" :id="'acr2'+n" :name="'acreditacion['+i+'][entidad]'">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="input-field"> 
-                                                <label :for="'acr3'+n">N° horas</label>
-                                                <input type="text" class="m-input" :id="'acr3'+n" :name="'acreditacion['+i+'][horas]'">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="input-field"> 
-                                                <label :for="'acr4'+n" class="active">fecha</label>
-                                                <input type="date"  :id="'acr4'+n" :name="'acreditacion['+i+'][fecha]'">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr style="border-bottom: 1px solid;">
-                                        <td colspan="4">
-                                            <input type="file" accept=".pdf,.docx,.png,.jpg" :name="'acreditacion['+i+'][archivo]'">
-                                        </td>
-                                    </tr>
-                                </template>
-                                
-                                
-                                <tr>
-                                    <td colspan="5" class="center-align">
-                                        <button type="button" v-on:click="addacreditaciones" 
-                                        class="btn btn-raised green darken-2" style="width: 100% !important;margin-bottom: 10px">
-                                            agregar 1<i class="material-icons right">add</i>
-                                        </button>
-                                        <button v-if="acreditados>1" v-on:click="acreditados--" type="button" 
-                                            class="btn btn-raised orange" style="width: 100% !important">
-                                            quitar 1<i class="material-icons right">clear</i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table> 
-                        </div>
-                    
-                    <p class="right-align">                    
-                        <button style="margin-bottom: 10px" type="button" class="btn btn-raised blue-grey darken-1" 
-                        onclick="instance.open(1);">
-                        volver <i class="material-icons left">keyboard_arrow_left</i>
-                        </button>
-                        <button style="margin-bottom: 10px" type="button" class="btn btn-raised btn-info" onclick="instance.open(3);">
-                        Continuar <i class="material-icons right">keyboard_arrow_right</i>
-                        </button>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div class="collapsible-header">
-                    <i class="material-icons left">edit</i>Experiencia Laboral
-                </div>
-                <div class="collapsible-body">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <th>ENTIDAD EN QUE LABORO</th>
-                                <th>CARGO QUE DESEMPEÑO</th>
-                                <th>PERIODO DE TRABAJO</th>
-                                <th>TIEMPO (años-meses)</th>
-                            </thead>
-                            <tbody>
-                                <template v-for="(n,i) in expLaboral">
-                                    <tr :key="'expLaboral_'+n" style="border-bottom: none;">
-                                        <td>
-                                            <div class="input-field"> 
-                                                <label :for="'exp1_'+n">Entidad</label>
-                                                <input type="text" class="m-input" :id="'exp1_'+n" :name="'experienciaLaboral1['+i+'][entidad]'">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="input-field"> 
-                                                <label :for="'exp2_'+n">Cargo</label>
-                                                <input type="text" class="m-input" :id="'exp2_'+n" :name="'experienciaLaboral1['+i+'][cargo]'">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="input-field"> 
-                                                <label :for="'exp3_'+n">Periodo</label>
-                                                <input type="text" class="m-input" :id="'exp3_'+n" :name="'experienciaLaboral1['+i+'][periodo]'">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="input-field"> 
-                                                <label :for="'exp4_'+n">Tiempo</label>
-                                                <input type="text" class="m-input" :id="'exp4_'+n" :name="'experienciaLaboral1['+i+'][tiempo]'">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr style="border-bottom: 1px solid;">
-                                        <td colspan="4">
-                                            <input type="file" accept=".pdf,.docx,.png,.jpg" :name="'experienciaLaboral1['+i+'][archivo]'">
-                                        </td>
-                                    </tr>
-                                </template>
-                                
-                                <tr>
-                                    <td colspan="5" class="center-align">
-                                        <button type="button" v-on:click="addexpLaboral" class="btn btn-raised green darken-2"
-                                        style="width: 100% !important;margin-bottom: 10px">
-                                            agregar 1<i class="material-icons right">add</i>
-                                        </button>
-                                        <button v-if="expLaboral>1" v-on:click="expLaboral--" type="button" 
-                                            class="btn btn-raised orange" style="width: 100% !important">
-                                            quitar 1<i class="material-icons right">clear</i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <p class="right-align">                    
-                        <button style="margin-bottom: 10px" type="button" class="btn btn-raised blue-grey darken-1" 
-                        onclick="instance.open(2);">
-                        volver <i class="material-icons left">keyboard_arrow_left</i>
-                        </button>
-                        <button style="margin-bottom: 10px" type="button" class="btn btn-raised btn-info" onclick="instance.open(4);">
-                        Continuar <i class="material-icons right">keyboard_arrow_right</i>
-                        </button>
-                    </p>
-                </div>
-            </li>
-            <li>
-                <div class="collapsible-header"><i class="material-icons left">edit</i>Experiencia Laboral Específica</div>
-                <div class="collapsible-body">
-                    <p>EXPERIENCIA LABORAL ESPECÍFICA EN EL CARGO O EN PROGRAMAS PRESUPUESTALES</p>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <th>ENTIDAD EN QUE LABORO</th>
-                                <th>CARGO QUE DESEMPEÑO</th>
-                                <th>PERIODO DE TRABAJO</th>
-                                <th>TIEMPO (años-meses)</th>
-                            </thead>
-                            <tbody>
-                                <template v-for="(n,i) in expLaboralEsp">
-                                    <tr :key="'expLaboralEsp_'+n" style="border-bottom: none;">
-                                        <td>
-                                            <div class="input-field"> 
-                                                <label :for="'exp10'+n">Entidad</label>
-                                                <input type="text" class="m-input" :id="'exp10'+n" :name="'experienciaLaboral2['+i+'][entidad]'">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="input-field"> 
-                                                <label :for="'exp20'+n">Cargo</label>
-                                                <input type="text" class="m-input" :id="'exp20'+n" :name="'experienciaLaboral2['+i+'][cargo]'">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="input-field"> 
-                                                <label :for="'exp30'+n">Periodo</label>
-                                                <input type="text" class="m-input" :id="'exp30'+n" :name="'experienciaLaboral2['+i+'][periodo]'">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="input-field"> 
-                                                <label :for="'exp40'+n">Tiempo</label>
-                                                <input type="text" class="m-input" :id="'exp40'+n" :name="'experienciaLaboral2['+i+'][tiempo]'">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr style="border-bottom: 1px solid;">
-                                        <td colspan="4">
-                                            <input type="file" accept=".pdf,.docx,.png,.jpg" :name="'experienciaLaboral2['+i+'][archivo]'">
-                                        </td>
-                                    </tr>
-
-                                </template>
-                                
-                                <tr>
-                                    <td colspan="5" class="center-align">
-                                        <button type="button" v-on:click="addexpLaboralEsp" 
-                                        class="btn btn-raised green darken-2" style="width: 100% !important;margin-bottom: 10px">
-                                            agregar 1<i class="material-icons right">add</i>
-                                        </button>
-                                        <button v-if="expLaboralEsp>1" v-on:click="expLaboralEsp--" type="button" 
-                                            class="btn btn-raised orange" style="width: 100% !important">
-                                            quitar 1<i class="material-icons right">clear</i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <p class="right-align">                    
-                        <button style="margin-bottom: 10px" type="button" class="btn btn-raised blue-grey darken-1" 
-                        onclick="instance.open(3);">
-                        volver <i class="material-icons left">keyboard_arrow_left</i>
-                        </button>
-                        <button style="margin-bottom: 10px" type="button" class="btn btn-raised btn-info" v-on:click="collapseAll">
+                        <div class="right-align">                    
+                            <button type="button" class="btn btn-raised btn-info" v-on:click="validatePostulantes">
                             Continuar <i class="material-icons right">keyboard_arrow_right</i>
-                        </button>                    
+                            </button>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header">
+                        <i class="material-icons left">edit</i>Estudios Realizados
+                    </div>
+                    <div class="collapsible-body">
+                        <div class="estudios">
+                            <p>
+                                <label>
+                                <input v-model="estudios.gradoMaestria" type="checkbox" class="filled-in" checked="checked" />
+                                <span>GRADO DE MAESTRIA</span>
+                                </label>
+                            </p>
+                            <div v-if="estudios.gradoMaestria" class="row">
+                                <div class="input-field col m6">  
+                                    <label for="e0">Universidad</label>
+                                    <input type="text" class="m-input" id="e0" required name="gradomaestria[universidad]">
+                                </div>
+                                <div class="input-field col m6">  
+                                    <label for="e1">Mención</label>
+                                    <input type="text" class="m-input" id="e1" required name="gradomaestria[mencion]">
+                                </div>
+                                <div class="input-field col m6">
+                                    <label for="e2" class="active">Fecha de Expedición</label>
+                                    <input type="date" id="e2" required name="gradomaestria[expedicion]">
+                                </div>
+                                <div class="input-field col m6">
+                                    <input type="file" accept=".pdf,.docx,.png,.jpg" id="tp4" required name="gradomaestria[archivo]">
+                                </div>
+                            </div>
+                            <p>
+                                <label>
+                                <input v-model="estudios.egresadoMaestria" type="checkbox" class="filled-in" checked="checked" />
+                                <span>EGRESADO DE MAESTRIA</span>
+                                </label>
+                            </p>
+                            <div v-if="estudios.egresadoMaestria" class="row">
+                                <div class="input-field col m6">  
+                                    <label for="m1">Universidad</label>
+                                    <input type="text" class="m-input" id="m1" required name="egresadomaestria[universidad]">
+                                </div>
+                                <div class="input-field col m6">  
+                                    <label for="m2">Mención</label>
+                                    <input type="text" class="m-input" id="m2" required name="egresadomaestria[mencion]">
+                                </div>
+                                <div class="input-field col m6">  
+                                    <label for="m3" class="active">Fecha de Expedición</label>
+                                    <input type="date"  id="m3" required name="egresadomaestria[expedicion]">
+                                </div>
+                                <div class="input-field col m6">
+                                    <input type="file" accept=".pdf,.docx,.png,.jpg" id="f2" required name="egresadomaestria[archivo]">
+                                </div>
+                            </div>
+
+                            <p>
+                                <label>
+                                <input v-model="estudios.titulo" type="checkbox" class="filled-in" checked="checked" />
+                                <span>TÍTULO PROFESIONAL</span>
+                                </label>
+                            </p>
+                            <div v-if="estudios.titulo" class="row">
+                                <div class="input-field col m6">  
+                                    <label for="tp0">Universidad</label>
+                                    <input type="text" class="m-input" id="tp0" required name="tituloprofesional[universidad]">
+                                </div>
+                                <div class="input-field col m6">  
+                                    <label for="tp2">Mención</label>
+                                    <input type="text" class="m-input" id="tp2" required name="tituloprofesional[mencion]">
+                                </div>
+                                <div class="input-field col m6">  
+                                    <label for="tp3" class="active">Fecha de Expedición</label>
+                                    <input type="date" id="tp3" required name="tituloprofesional[expedicion]">
+                                </div>
+                                <div class="input-field col m6">  
+                                    <input type="file" accept=".pdf,.docx,.png,.jpg" id="tp4" required name="tituloprofesional[archivo]">
+                                </div>
+                            </div>
+                            <p>
+                                <label>
+                                <input v-model="estudios.bachiller" type="checkbox" class="filled-in" checked="checked" />
+                                <span>GRADO DE BACHILLER</span>
+                                </label>
+                            </p>
+                            <div v-if="estudios.bachiller" class="row">
+                                <div class="input-field col m6">  
+                                    <label for="gb1">Universidad</label>
+                                    <input type="text" class="m-input" id="gb1" required name="gradobachiller[universidad]">
+                                </div>
+                                <div class="input-field col m6">  
+                                    <label for="gb2">Mención</label>
+                                    <input type="text" class="m-input" id="gb2" required name="gradobachiller[mencion]"> 
+                                </div>
+                                <div class="input-field col m6">  
+                                    <label for="gb3" class="active">Fecha de Expedición</label>
+                                    <input type="date" id="gb3" required name="gradobachiller[expedicion]">
+                                </div>
+                                <div class="input-field col m6">
+                                    <input type="file" accept=".pdf,.docx,.png,.jpg" id="gb4" required name="gradobachiller[archivo]">
+                                </div>
+                            </div>
+                        </div>
+                        <p class="right-align">                    
+                            <button style="margin-bottom: 10px" type="button" class="btn btn-raised blue-grey darken-1" onclick="instance.open(0);">
+                            volver <i class="material-icons left">keyboard_arrow_left</i>
+                            </button>
+                            <button style="margin-bottom: 10px" type="button" class="btn btn-raised btn-info" onclick="instance.open(2);">
+                            Continuar <i class="material-icons right">keyboard_arrow_right</i>
+                            </button>
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header">
+                        <i class="material-icons left">edit</i>Acreditaciones
+                    </div>
+                    <div class="collapsible-body">
+                        <p>CAPACITACIONES, CURSOS O DIPLOMADOS ACREDITADOS EN EL SECTOR EDUCACIÓN EN GESTIÓN DE RIESGO DE DESASTRES
+                            realizados los últimos 5 años:</p>
+                            <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <th>DENOMINACION DEL CURSO DE EXPEDICION</th>
+                                    <th>ENTIDAD QUE LO EMITIO</th>
+                                    <th>N° DE HORAS</th>
+                                    <th>FECHA</th>
+                                </thead>
+                                <tbody>
+                                    <template v-for="(n,i) in acreditados">
+                                        <tr :key="'acreditados'+n" style="border-bottom: none;">
+                                            <td>
+                                                <div class="input-field col m6"> 
+                                                    <label :for="'acr1'+n">Denominación</label>
+                                                    <input type="text" class="m-input" :id="'acr1'+n" :name="'acreditacion['+i+'][denominacion]'">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="input-field"> 
+                                                    <label :for="'acr2'+n">Entidad</label>
+                                                    <input type="text" class="m-input" :id="'acr2'+n" :name="'acreditacion['+i+'][entidad]'">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="input-field"> 
+                                                    <label :for="'acr3'+n">N° horas</label>
+                                                    <input type="text" class="m-input" :id="'acr3'+n" :name="'acreditacion['+i+'][horas]'">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="input-field"> 
+                                                    <label :for="'acr4'+n" class="active">fecha</label>
+                                                    <input type="date"  :id="'acr4'+n" :name="'acreditacion['+i+'][fecha]'">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid;">
+                                            <td colspan="4">
+                                                <input type="file" accept=".pdf,.docx,.png,.jpg" :name="'acreditacion['+i+'][archivo]'">
+                                            </td>
+                                        </tr>
+                                    </template>
+                                    
+                                    
+                                    <tr>
+                                        <td colspan="5" class="center-align">
+                                            <button type="button" v-on:click="addacreditaciones" 
+                                            class="btn btn-raised green darken-2" style="width: 100% !important;margin-bottom: 10px">
+                                                agregar 1<i class="material-icons right">add</i>
+                                            </button>
+                                            <button v-if="acreditados>1" v-on:click="acreditados--" type="button" 
+                                                class="btn btn-raised orange" style="width: 100% !important">
+                                                quitar 1<i class="material-icons right">clear</i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table> 
+                            </div>
+                        
+                        <p class="right-align">                    
+                            <button style="margin-bottom: 10px" type="button" class="btn btn-raised blue-grey darken-1" 
+                            onclick="instance.open(1);">
+                            volver <i class="material-icons left">keyboard_arrow_left</i>
+                            </button>
+                            <button style="margin-bottom: 10px" type="button" class="btn btn-raised btn-info" onclick="instance.open(3);">
+                            Continuar <i class="material-icons right">keyboard_arrow_right</i>
+                            </button>
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header">
+                        <i class="material-icons left">edit</i>Experiencia Laboral
+                    </div>
+                    <div class="collapsible-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <th>ENTIDAD EN QUE LABORO</th>
+                                    <th>CARGO QUE DESEMPEÑO</th>
+                                    <th>PERIODO DE TRABAJO</th>
+                                    <th>TIEMPO (años-meses)</th>
+                                </thead>
+                                <tbody>
+                                    <template v-for="(n,i) in expLaboral">
+                                        <tr :key="'expLaboral_'+n" style="border-bottom: none;">
+                                            <td>
+                                                <div class="input-field"> 
+                                                    <label :for="'exp1_'+n">Entidad</label>
+                                                    <input type="text" class="m-input" :id="'exp1_'+n" :name="'experienciaLaboral1['+i+'][entidad]'">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="input-field"> 
+                                                    <label :for="'exp2_'+n">Cargo</label>
+                                                    <input type="text" class="m-input" :id="'exp2_'+n" :name="'experienciaLaboral1['+i+'][cargo]'">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="input-field"> 
+                                                    <label :for="'exp3_'+n">Periodo</label>
+                                                    <input type="text" class="m-input" :id="'exp3_'+n" :name="'experienciaLaboral1['+i+'][periodo]'">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="input-field"> 
+                                                    <label :for="'exp4_'+n">Tiempo</label>
+                                                    <input type="text" class="m-input" :id="'exp4_'+n" :name="'experienciaLaboral1['+i+'][tiempo]'">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid;">
+                                            <td colspan="4">
+                                                <input type="file" accept=".pdf,.docx,.png,.jpg" :name="'experienciaLaboral1['+i+'][archivo]'">
+                                            </td>
+                                        </tr>
+                                    </template>
+                                    
+                                    <tr>
+                                        <td colspan="5" class="center-align">
+                                            <button type="button" v-on:click="addexpLaboral" class="btn btn-raised green darken-2"
+                                            style="width: 100% !important;margin-bottom: 10px">
+                                                agregar 1<i class="material-icons right">add</i>
+                                            </button>
+                                            <button v-if="expLaboral>1" v-on:click="expLaboral--" type="button" 
+                                                class="btn btn-raised orange" style="width: 100% !important">
+                                                quitar 1<i class="material-icons right">clear</i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <p class="right-align">                    
+                            <button style="margin-bottom: 10px" type="button" class="btn btn-raised blue-grey darken-1" 
+                            onclick="instance.open(2);">
+                            volver <i class="material-icons left">keyboard_arrow_left</i>
+                            </button>
+                            <button style="margin-bottom: 10px" type="button" class="btn btn-raised btn-info" onclick="instance.open(4);">
+                            Continuar <i class="material-icons right">keyboard_arrow_right</i>
+                            </button>
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <div class="collapsible-header"><i class="material-icons left">edit</i>Experiencia Laboral Específica</div>
+                    <div class="collapsible-body">
+                        <p>EXPERIENCIA LABORAL ESPECÍFICA EN EL CARGO O EN PROGRAMAS PRESUPUESTALES</p>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <th>ENTIDAD EN QUE LABORO</th>
+                                    <th>CARGO QUE DESEMPEÑO</th>
+                                    <th>PERIODO DE TRABAJO</th>
+                                    <th>TIEMPO (años-meses)</th>
+                                </thead>
+                                <tbody>
+                                    <template v-for="(n,i) in expLaboralEsp">
+                                        <tr :key="'expLaboralEsp_'+n" style="border-bottom: none;">
+                                            <td>
+                                                <div class="input-field"> 
+                                                    <label :for="'exp10'+n">Entidad</label>
+                                                    <input type="text" class="m-input" :id="'exp10'+n" :name="'experienciaLaboral2['+i+'][entidad]'">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="input-field"> 
+                                                    <label :for="'exp20'+n">Cargo</label>
+                                                    <input type="text" class="m-input" :id="'exp20'+n" :name="'experienciaLaboral2['+i+'][cargo]'">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="input-field"> 
+                                                    <label :for="'exp30'+n">Periodo</label>
+                                                    <input type="text" class="m-input" :id="'exp30'+n" :name="'experienciaLaboral2['+i+'][periodo]'">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="input-field"> 
+                                                    <label :for="'exp40'+n">Tiempo</label>
+                                                    <input type="text" class="m-input" :id="'exp40'+n" :name="'experienciaLaboral2['+i+'][tiempo]'">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid;">
+                                            <td colspan="4">
+                                                <input type="file" accept=".pdf,.docx,.png,.jpg" :name="'experienciaLaboral2['+i+'][archivo]'">
+                                            </td>
+                                        </tr>
+
+                                    </template>
+                                    
+                                    <tr>
+                                        <td colspan="5" class="center-align">
+                                            <button type="button" v-on:click="addexpLaboralEsp" 
+                                            class="btn btn-raised green darken-2" style="width: 100% !important;margin-bottom: 10px">
+                                                agregar 1<i class="material-icons right">add</i>
+                                            </button>
+                                            <button v-if="expLaboralEsp>1" v-on:click="expLaboralEsp--" type="button" 
+                                                class="btn btn-raised orange" style="width: 100% !important">
+                                                quitar 1<i class="material-icons right">clear</i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <p class="right-align">                    
+                            <button style="margin-bottom: 10px" type="button" class="btn btn-raised blue-grey darken-1" 
+                            onclick="instance.open(3);">
+                            volver <i class="material-icons left">keyboard_arrow_left</i>
+                            </button>
+                            <button style="margin-bottom: 10px" type="button" class="btn btn-raised btn-info" v-on:click="collapseAll">
+                                Continuar <i class="material-icons right">keyboard_arrow_right</i>
+                            </button>                    
+                        </p>
+                        
+                    </div>
+                </li>
+            </ul>
+            <div v-if="btnSubmit" class="card" >
+                <div class="card-content">
+                    <p class="center-align">
+                        <button style="margin-bottom: 10px" type="submit" class="btn btn-raised blue darken-4">
+                            finalizar <i class="material-icons right">send</i>
+                        </button>
                     </p>
-                    
                 </div>
-            </li>
-        </ul>
-        <div v-if="btnSubmit" class="card" >
-            <div class="card-content">
-                <p class="center-align">
-                    <button style="margin-bottom: 10px" type="submit" class="btn btn-raised blue darken-4">
-                        finalizar <i class="material-icons right">send</i>
-                    </button>
-                </p>
-            </div>
-        </div>       
-    </form>
+            </div>       
+        </form>
+    @else 
+        <div class="card blue-grey darken-1">
+        <div class="card-content white-text center-align  ">
+            <span class="card-title">Registro no disponible temporalmente</span>
+        </div>
+        </div>
+    @endif
 @endsection
 
 @section('scripts')
