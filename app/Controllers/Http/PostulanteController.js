@@ -10,10 +10,10 @@ const Cargo = use('App/Models/Cargo')
 //const { session } = use('Session')
 class PostulanteController {
 
-  async index({ request, response, view }) {
-    //const cargos = await Database.table('cargos').select('id', 'nombre');
+   permitirRegistro=false;
 
-    return view.render('public.registropostulantes');
+  async index({ request, response, view }) {
+    return view.render('public.registropostulantes',{permitirRegistro:this.permitirRegistro});
   }
 
 
@@ -308,6 +308,11 @@ class PostulanteController {
     return registroPdf
   }
 
+  async cargos(){
+    const cargos = await Database.table('cargos').select('id', 'nombre');
+
+    return cargos;
+  }
 
 }
 

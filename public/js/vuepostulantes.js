@@ -8,7 +8,7 @@ new Vue({
             email: '',
             movil: '',
             carreraprofesional: '',
-            cargo_id: 1
+            cargo_id: 2
         },
         estudios: {
             gradoMaestria: false,
@@ -19,9 +19,30 @@ new Vue({
         acreditados: 1,
         expLaboral: 1,
         expLaboralEsp: 1,
-        btnSubmit: false
+        btnSubmit: false,
+        cargos: [],
+    },
+    created() {
+        this.getcargos();
     },
     methods: {
+        getcargos() {
+            fetch('api/cargos')
+                .then(response => response.json())
+                .then(data => {
+                    this.cargos = data
+                    var options = ""
+                    for (let index = 0; index < this.cargos.length; index++) {
+                        const { nombre, id } = this.cargos[index];
+                        options += `<option value="${id}"> ${nombre} </option>`;
+                    }
+                    $('#cargo').html(options);
+                    //console.log(this.cargos);
+                    //console.log(options);
+                   $('select').formSelect();
+                });
+
+        },
         validatePostulantes: function () {
             for (const prop in this.postulante) {
                 if (!this.postulante[prop]) {
@@ -34,43 +55,43 @@ new Vue({
             this.postulanteOk = true;
         },
         addacreditaciones: function () {
-            let isOk=true
-            $('input[name^="acreditacion"]').each(function() {
-                if($(this).val().length == 0){
-                    isOk=false;
+            let isOk = true
+            $('input[name^="acreditacion"]').each(function () {
+                if ($(this).val().length == 0) {
+                    isOk = false;
                 }
             });
             if (isOk) {
                 this.acreditados++
-            }else{
+            } else {
                 M.toast({ html: `Complete los todos campos o de click en "Continuar"` })
-            }            
+            }
         },
-        addexpLaboral:function(){
-            let isOk=true
-            $('input[name^="experienciaLaboral1"]').each(function() {
-                if($(this).val().length == 0){
-                    isOk=false;
+        addexpLaboral: function () {
+            let isOk = true
+            $('input[name^="experienciaLaboral1"]').each(function () {
+                if ($(this).val().length == 0) {
+                    isOk = false;
                 }
             });
             if (isOk) {
                 this.expLaboral++
-            }else{
+            } else {
                 M.toast({ html: `Complete los todos campos o de click en "Continuar"` })
-            } 
+            }
         },
-        addexpLaboralEsp:function(){
-            let isOk=true
-            $('input[name^="experienciaLaboral2"]').each(function() {
-                if($(this).val().length == 0){
-                    isOk=false;
+        addexpLaboralEsp: function () {
+            let isOk = true
+            $('input[name^="experienciaLaboral2"]').each(function () {
+                if ($(this).val().length == 0) {
+                    isOk = false;
                 }
             });
             if (isOk) {
                 this.expLaboralEsp++
-            }else{
+            } else {
                 M.toast({ html: `Complete los todos campos o de click en "Continuar"` })
-            } 
+            }
         },
         collapseAll: function () {
             //$( "#app" ).submit();

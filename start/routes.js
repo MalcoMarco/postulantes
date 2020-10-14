@@ -47,3 +47,11 @@ Route.group(() => {
   Route.get('postulante/:postulante_id', 'Admin/AdminController.showPostulante')
 
 }).prefix('admin').middleware('auth')
+
+
+///
+// ::: API :::
+Route.group(() => {
+  Route.get('cargos', 'PostulanteController.cargos')
+  
+}).prefix('api')
